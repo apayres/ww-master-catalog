@@ -26,7 +26,7 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish ~/work/MasterCatalog/MasterCatalog/MasterCatalog/MasterCatalog.Web/MasterCatalog.Web.csproj -c Release -o ${{env.DOTNET_ROOT}}/deployment
+        run: dotnet publish ${{github.workspace}}/MasterCatalog.Web/MasterCatalog.Web.csproj -c Release -o ${{env.DOTNET_ROOT}}/deployment
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
