@@ -1,0 +1,30 @@
+﻿@model MasterCatalog.Web.Models.UnitOfMeasure.IndexViewModel
+@{
+    ViewData["Title"] = "Unit of Measure";
+}
+
+@section Scripts {
+    <script src="~/Views/UnitOfMeasure/Index.cshtml.js" asp-append-version="true" type="module"></script>
+}
+
+<div id="content">
+    <div class="row">
+        <div class="col-lg-9 col-md-7">
+            <message-center ref="messageCenter"></message-center>
+
+            <unit-of-measure-grid :items="unitsOfMeasure"
+                                  :processing="processing"
+                                  v-on:edit-item="loadForm"
+                                  v-on:delete-item="deleteUnitOfMeasure"></unit-of-measure-grid>
+
+        </div>
+        <div class="col-lg-3 col-md-5">
+            <unit-of-measure-form :model="form.model"
+                                  :processing="processing"
+                                  v-on:add-item="addUnitOfMeasure"
+                                  v-on:update-item="updateUnitOfMeasure"
+                                  v-on:cancel-form-action="resetForm"></unit-of-measure-form>
+
+        </div>
+    </div>
+</div>

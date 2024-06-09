@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "Companies";
+}
+
+@section Scripts {
+    <script src="~/Views/Company/Index.cshtml.js" asp-append-version="true" type="module"></script>
+}
+
+<div id="content">
+    <div class="row">
+        <div class="col-9">
+            <message-center ref="messageCenter"></message-center>
+
+            <company-grid 
+                :companies="companies"
+                :processing="processing"
+                v-on:edit-item="loadForm"
+                v-on:delete-item="deleteCompany">
+            </company-grid>
+
+        </div>
+        <div class="col-3">
+            <company-form 
+                :model="form.model"
+                :processing="processing"
+                v-on:add-item="addCompany"
+                v-on:update-item="updateCompany"
+                v-on:cancel-form-action="resetForm">
+            </company-form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+﻿@{
+    Layout = null;
+    string activePage = ViewContext.RouteData.Values["controller"].ToString().ToLower() + "/" + ViewContext.RouteData.Values["action"].ToString().ToLower();
+}
+
+<div id="sideMenu" class="p-3">
+    <h5 class="text-primary p-3 pt-0">Menu</h5>
+    <ul class="list-unstyled">
+        <li class="p-2 ps-3 @(activePage.StartsWith("items") ? "link-active" : string.Empty)">
+            <a class="link-dark link-opacity-75-hover link-offset-2 link-underline link-underline-opacity-0" asp-controller="Items" asp-action="List">Items</a>
+        </li>
+        <li class="p-2 ps-3 @(activePage == "itemattribute/index" ? "link-active" : string.Empty)">
+            <a class="link-dark link-opacity-75-hover link-offset-2 link-underline link-underline-opacity-0" asp-controller="ItemAttribute" asp-action="Index">Item Attributes</a>
+        </li>
+        <li class="p-2 ps-3 @(activePage == "unitofmeasure/index" ? "link-active" : string.Empty)">
+            <a class="link-dark link-opacity-75-hover link-offset-2 link-underline link-underline-opacity-0" asp-controller="UnitOfMeasure" asp-action="Index">Units of Measure</a>
+        </li>
+        <li class="p-2 ps-3 @(activePage.StartsWith("company") ? "link-active" : string.Empty)">
+            <a class="link-dark link-opacity-75-hover link-offset-2 link-underline link-underline-opacity-0" asp-controller="Company" asp-action="Index">Companies</a>
+        </li>
+    </ul>
+</div>

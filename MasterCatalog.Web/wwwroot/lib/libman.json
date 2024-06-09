@@ -1,0 +1,41 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "vue@3.4.15",
+      "destination": "vue/",
+      "files": [
+        "vue.esm-browser.min.js"
+      ]
+    },
+    {
+      "library": "axios@1.6.7",
+      "destination": "axios",
+      "files": [
+        "axios.min.js",
+        "axios.min.js.map",
+        "esm/axios.min.js"
+      ]
+    },
+    {
+      "library": "bootstrap@5.3.3",
+      "destination": "bootstrap/",
+      "files": [
+        "js/*",
+        "scss/*",
+        "scss/*/*"
+      ]
+    },
+    {
+      "library": "bootstrap-icons@1.11.3",
+      "destination": "bootstrap-icons/",
+      "files": [
+        "font/bootstrap-icons.css",
+        "font/bootstrap-icons.min.css",
+        "font/fonts/bootstrap-icons.woff",
+        "font/fonts/bootstrap-icons.woff2"
+      ]
+    }
+  ]
+}

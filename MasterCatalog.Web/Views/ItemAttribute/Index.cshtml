@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Item Attributes";
+}
+
+@section Scripts {
+    <script src="~/Views/ItemAttribute/Index.cshtml.js" asp-append-version="true" type="module"></script>
+}
+
+<div id="content">
+    <div class="row">
+        <div class="col-9">
+            <message-center ref="messageCenter"></message-center>
+            <attribute-grid :items="attributes"
+                            :processing="processing"
+                            v-on:edit-item="loadForm"
+                            v-on:delete-item="deleteAttribute"></attribute-grid>
+
+        </div>
+        <div class="col-3">
+            <attribute-form :model="form.model"
+                            :processing="processing"
+                            v-on:add-item="addAttribute"
+                            v-on:update-item="updateAttribute"
+                            v-on:cancel-form-action="resetForm"></attribute-form>
+        </div>
+    </div>
+</div>

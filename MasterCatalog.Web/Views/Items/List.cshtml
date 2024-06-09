@@ -1,0 +1,17 @@
+﻿@model MasterCatalog.Web.Models.Items.ListViewModel
+
+@{
+    ViewData["Title"] = "Items";
+}
+
+@section Scripts {
+    <script src="~/Views/Items/List.cshtml.js" asp-append-version="true" type="module"></script>
+}
+
+<div id="content">
+    <div class="row">
+        <div class="col-12 mt-2">
+            <item-grid default-search-term="@Model.SearchTerm"></item-grid>
+        </div>
+    </div>
+</div>

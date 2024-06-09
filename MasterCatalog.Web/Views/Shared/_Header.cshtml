@@ -1,0 +1,48 @@
+﻿@using System.Security.Claims
+
+@{
+    Layout = null;
+    var name = User?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.GivenName)?.Value ?? "Friend";
+}
+
+<header id="headerMenu">
+    <nav class="navbar navbar-expand bg-white shadow-sm p-2">
+        <div class="container-fluid">
+            <img src="~/images/Header_Logo.png" id="headerImage" />
+
+            <div class="row">
+                <div class="col-7">
+                    <div class="navbar-text">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="globalSearchTerm" placeholder="Search items..." />
+                            <span class="input-group-text">
+                                <a href="#" onclick="searchClick()">
+                                    <i class="bi bi-search"></i>
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-5">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse mt-2" id="navbarNavDarkDropdown">
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <button class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-person-circle"></i>
+                                    <span>Hi, @name!</span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-light dropdown-menu-end">
+                                    <li><a class="dropdown-item" asp-action="Index" asp-controller="Account">Profile</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>

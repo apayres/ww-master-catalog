@@ -1,0 +1,60 @@
+﻿html {
+  font-size: 12px;
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  background: #F6F7FB;
+}
+
+#sideMenu {
+  width: 200px;
+  position: fixed;
+  top: 80px;
+  bottom: 0;
+  font-size: 14px;
+  left: 0;
+}
+
+#headerMenu {
+  position: fixed;
+  top: 0;
+  left: 15px;
+  right: 15px;
+  z-index: 10;
+}
+#headerMenu .navbar {
+  border-radius: 0 0 15px 15px;
+}
+
+#headerImage {
+  height: 40px;
+  float: left;
+}
+
+#mainContent {
+  margin-top: 80px;
+  margin-left: 200px;
+  margin-right: 15px;
+  margin-bottom: 60px;
+}
+#mainContent .container:first-child {
+  border-radius: 15px;
+}
+
+#footer {
+  background: #ecedf3;
+  margin-bottom: 15px;
+  margin-top: 20px;
+  padding: 5px;
+  border-radius: 15px;
+  position: relative;
+}
+
+.link-active {
+  border-right: solid 3px #4800ff;
+}
+.link-active a {
+  opacity: 0.8;
+}

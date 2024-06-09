@@ -1,0 +1,29 @@
+﻿@model MasterCatalog.Web.Models.Items.IndexViewModel
+
+@{
+    ViewData["Title"] = "Item";
+}
+
+@section Scripts {
+    <script src="~/Views/Items/Index.cshtml.js" asp-append-version="true" type="module"></script>
+}
+
+<div id="content">
+    <div class="row">
+        <message-center ref="messageCenter"></message-center>
+
+        <div class="col-9">
+            <item-details 
+                :item="model" 
+                :loading="loading">
+            </item-details>
+        </div>
+        <div class="col-3">
+            <item-images ref="itemImages"></item-images>
+            <item-attributes ref="itemAttributes"></item-attributes>
+            <item-recipe ref="itemRecipe"></item-recipe>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="itemID" value="@Model.ItemID" />

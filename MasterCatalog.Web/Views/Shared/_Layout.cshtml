@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Master Catalog</title>
+    <link rel="icon" href="/favicon.ico">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    @await Component.InvokeAsync("JavaScriptSettings")
+    
+    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script type="importmap">
+        {
+          "imports": {
+            "vue": "/lib/vue/vue.esm-browser.min.js",
+            "axios" : "/lib/axios/esm/axios.min.js"
+          }
+        }
+    </script>
+
+</head>
+<body>
+    @await Html.PartialAsync("_Header")
+
+    @await Html.PartialAsync("_SideMenu")
+
+    <div id="mainContent">
+        <div class="container mt-3 bg-white shadow-sm">
+            <main role="main" class="p-3 pb-5 ">
+                @RenderBody()
+            </main>
+        </div>
+        <div class="clearfix"></div>
+
+        @await Html.PartialAsync("_Footer")
+    </div>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,24 @@
+﻿@model MasterCatalog.Web.Models.Company.CatalogViewModel
+
+@{
+    ViewData["Title"] = "Catalog";
+}
+
+@section Scripts {
+    <script src="~/Views/Company/Catalog.cshtml.js" asp-append-version="true" type="module"></script>
+}
+
+<div id="content">
+    <div class="row">
+        <div class="col-12">
+            <message-center ref="messageCenter"></message-center>
+            <price-update-form ref="updatePriceForm"></price-update-form>
+            
+            <catalog-grid 
+                ref="catalogGrid"
+                :company-id="Number(@Model.CompanyID)"
+                v-on:update-price="updatePrice">
+            </catalog-grid>
+        </div>
+    </div>
+</div>
