@@ -26,13 +26,13 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/MasterCatalog.Web
+        run: publish -c Release -property:PublishDir=${{env.DOTNET_ROOT}}/MasterCatalogWeb
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/MasterCatalog.Web
+          path: ${{env.DOTNET_ROOT}}/MasterCatalogWeb
 
   deploy:
     runs-on: windows-latest
