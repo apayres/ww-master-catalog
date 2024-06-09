@@ -26,13 +26,13 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -property:PublishDir=${{github.GITHUB_WORKSPACE}}/MasterCatalog.Web
+        run: dotnet publish ${{github.GITHUB_WORKSPACE}}/MasterCatalog.Web/MasterCatalog.Web.csproj -c Release -o ${{github.GITHUB_WORKSPACE}}/Deployment
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: .net-app
-          path: ${{github.GITHUB_WORKSPACE}}/MasterCatalog.Web
+          path: ${{github.GITHUB_WORKSPACE}}/Deployment
 
   deploy:
     runs-on: windows-latest
