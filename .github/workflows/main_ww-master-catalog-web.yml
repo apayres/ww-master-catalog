@@ -33,7 +33,7 @@ jobs:
         with:
          files: '${{env.DOTNET_ROOT}}/deployment/appsettings.json'
         env:
-           ApiEndPointUrl: ${{ env.ApiEndPointUrl }}
+           ApiEndPointUrl: ${{ env.APIENDPOINTURL }}
         
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
