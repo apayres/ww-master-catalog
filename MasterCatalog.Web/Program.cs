@@ -1,8 +1,6 @@
 using MasterCatalog.Web.Authentication;
 using MasterCatalog.Web.Services;
-using Microsoft.Extensions.FileProviders;
 using System.Net;
-using System.Reflection.PortableExecutable;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,12 +37,6 @@ app.UseStatusCodePages(context =>
 });
 
 app.UseStaticFiles();
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(Path.Combine("D:/a/ww-master-catalog/ww-master-catalog/MasterCatalog.Web", "Views")),
-    RequestPath = "/Views"
-});
-
 app.UseRouting();
 app.UseSession();
 app.UseAuthentication();
