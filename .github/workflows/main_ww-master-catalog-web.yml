@@ -28,6 +28,13 @@ jobs:
       - name: dotnet publish
         run: dotnet publish ${{github.workspace}}/MasterCatalog.Web/MasterCatalog.Web.csproj -c Release -o ${{env.DOTNET_ROOT}}/deployment
 
+      - name: App Settings Variable Substitution
+        uses: microsoft/variable-substitution@v1
+        with:
+         files: '${{env.DOTNET_ROOT}}/deployment/appsettings.json'
+        env:
+           ApiEndPointUrl: ${{ env.ApiEndPointUrl }}
+        
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
