@@ -28,12 +28,28 @@ jobs:
       - name: dotnet publish
         run: dotnet publish ${{github.workspace}}/MasterCatalog.Api/MasterCatalog.Api.csproj -c Release -o ${{env.DOTNET_ROOT}}/deploymentapi
 
-      - name: Set property string value in a json file
+      - name: Set cors white list value in a json file
         uses: benday-inc/set-property-value-in-appsettings@v1.4
         with:
           pathToSettingsFile: ${{env.DOTNET_ROOT}}/deploymentapi/appsettings.json
           keyname1: CORSAllowedOrigins 
           valueToSet: ${{ vars.CORSALLOWEDORIGINS }} 
+
+      - name: Set default connection string value in a json file
+        uses: benday-inc/set-property-value-in-appsettings@v1.4
+        with:
+          pathToSettingsFile: ${{env.DOTNET_ROOT}}/deploymentapi/appsettings.json
+          keyname1: ConnectionStrings
+          keyname2: Default
+          valueToSet: ${{ vars.DEFAULTSQLCONNECTION }}
+
+      - name: Set blog storage connection string value in a json file
+        uses: benday-inc/set-property-value-in-appsettings@v1.4
+        with:
+          pathToSettingsFile: ${{env.DOTNET_ROOT}}/deploymentapi/appsettings.json
+          keyname1: ConnectionStrings
+          keyname2: BlobStorage
+          valueToSet: ${{ vars.BLOBSTORAGECONNECTIONSTRING }}
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
