@@ -36,14 +36,15 @@ app.UseStatusCodePages(context =>
     return Task.CompletedTask;
 });
 
-app.UseStaticFiles();
 app.UseRouting();
 app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseStaticFiles();
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Account}/{action=Login}/{id?}").RequireAuthorization();
+    pattern: "{controller=Account}/{action=Login}/{id?}"
+    ).RequireAuthorization();
 
 app.Run();
