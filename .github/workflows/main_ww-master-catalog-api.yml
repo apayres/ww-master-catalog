@@ -26,13 +26,20 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish ${{github.workspace}}/MasterCatalog.Api/MasterCatalog.Api.csproj -c Release -o ${{env.DOTNET_ROOT}}/deploymentapi
+
+      - name: Set property string value in a json file
+        uses: benday-inc/set-property-value-in-appsettings@v1.4
+        with:
+          pathToSettingsFile: ${{env.DOTNET_ROOT}}/deploymentapi/appsettings.json
+          keyname1: CORSAllowedOrigins 
+          valueToSet: ${{ vars.CORSALLOWEDORIGINS }} 
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          path: ${{env.DOTNET_ROOT}}/deploymentapi
 
   deploy:
     runs-on: windows-latest
