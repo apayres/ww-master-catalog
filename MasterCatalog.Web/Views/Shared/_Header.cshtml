@@ -2,6 +2,7 @@
 
 @{
     Layout = null;
+    var loggedIn = User != null && User.Identity.IsAuthenticated;
     var name = User?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.GivenName)?.Value ?? "Friend";
 }
 
@@ -35,8 +36,16 @@
                                     <span>Hi, @name!</span>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-light dropdown-menu-end">
-                                    <li><a class="dropdown-item" asp-action="Index" asp-controller="Account">Profile</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                                    @if (loggedIn)
+                                    {
+                                        <li><a class="dropdown-item" asp-action="Index" asp-controller="Account">Profile</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li><a class="dropdown-item" asp-action="Login" asp-controller="Account">Login</a></li>   
+                                    }
+
                                 </ul>
                             </li>
                         </ul>

@@ -9,6 +9,7 @@ namespace MasterCatalog.Api.Extensions
         public static IServiceCollection AddAppServices(this IServiceCollection services)
         {
 
+            services.AddSingleton<ICategoryService, CategoryService>();
             services.AddSingleton<ICompanyService, CompanyService>();
             services.AddSingleton<ICompanyCatalogService, CompanyCatalogService>();
             services.AddSingleton<IIngredientService, IngredientService>();

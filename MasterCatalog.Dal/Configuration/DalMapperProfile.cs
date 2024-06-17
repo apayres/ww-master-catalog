@@ -15,6 +15,7 @@ namespace MasterCatalog.Dal.Configuration
             CreateMap<ApplicationUser, ApplicationUserDTO>()
                 .ForMember(dest => dest.ApplicationRoleID, opt => opt.MapFrom(src => (int)src.Role));
 
+            CreateMap<CategoryDTO, Category>().ReverseMap();
             CreateMap<CompanyDTO, Company>().ReverseMap();
             CreateMap<CompanyCatalogDTO, CompanyCatalog>().ReverseMap();
             CreateMap<IngredientDTO, Ingredient>().ReverseMap();

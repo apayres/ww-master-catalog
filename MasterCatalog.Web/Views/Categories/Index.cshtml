@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "Categories";
+}
+
+@section Scripts {
+    <script src="~/js/components/Categories/Index.js" asp-append-version="true" type="module"></script>
+}
+
+<div id="content">
+    <div class="row">
+        <div class="col-9">
+            <message-center ref="messageCenter"></message-center>
+
+            <category-grid 
+                :categories="categories"
+                :processing="processing"
+                v-on:edit-item="loadForm"
+                v-on:delete-item="deleteCategory">
+            </category-grid>
+        </div>
+        <div class="col-3">
+            <category-form 
+                :model="form.model"
+                :categories="categories"
+                :processing="processing"
+                v-on:add-item="addCategory"
+                v-on:update-item="updateCategory"
+                v-on:cancel-form-action="resetForm">
+            </category-form>
+        </div>
+    </div>
+</div>

@@ -2,9 +2,10 @@
 import { default as MessageCenter } from '../Shared/MessageCenter/MessageCenter.js';
 import { default as ItemGridHeader } from './ItemGridHeader.js';
 import { default as TablePlaceholder } from '../Shared/Placeholders/TablePlaceholder.js';
-
+import { default as Pagination } from '../shared/pagination/Pagination.js';
 import { ItemService } from '../../services/itemService.js';
 import { ErrorHandler } from '../../utilities/errorHandler.js';
+
 
 const _itemService = new ItemService();
 const _errorHandler = new ErrorHandler();
@@ -17,6 +18,9 @@ export default {
             loading: true,
             items: [],
             searchTerm: '',
+            pageNumber: 1,
+            itemsPerPage: 10,
+            numberOfPages: 0
         }
     },
     props: {
@@ -26,7 +30,8 @@ export default {
         TablePlaceholder,
         ButtonIcon,
         MessageCenter,
-        ItemGridHeader
+        ItemGridHeader,
+        Pagination 
     },
     methods: {
         addItem() {
@@ -41,6 +46,15 @@ export default {
             _itemService.get()
                 .then(function (response) {
                     self.items = response.data;
+                    const numberOfPages = self.items.length / self.itemsPerPage;
+                    const numberOfPagesRounded = Math.round(numberOfPages);
+
+                    if (numberOfPages > numberOfPagesRounded) {
+                        self.numberOfPages = numberOfPagesRounded + 1;
+                    }
+                    else {
+                        self.numberOfPages = numberOfPagesRounded;
+                    }
                 })
                 .catch(function (error) {
                     const msg = _errorHandler.getMessage(error, 'Could not load items');
@@ -53,20 +67,33 @@ export default {
         viewClick(id) {
             window.location.href = '/Items/Index/' + id;
             return false;
+        },
+        paginationClick(pageNumber) {
+            this.pageNumber = pageNumber;
         }
     },
     computed: {
         filteredItems() {
             let term = this.searchTerm;
+            let filteredItems = [];
+
             if (!term) {
-                return this.items;
+                filteredItems = this.items;
+            }
+            else {
+                term = term.toLowerCase();
+                filteredItems = this.items.filter((obj) => {
+                    return obj.itemName.toLowerCase().indexOf(term) >= 0
+                        || obj.upc.toLowerCase().indexOf(term) >= 0
+                        || obj.itemDescription.toLowerCase().indexOf(term) >= 0;
+                });
             }
 
-            term = term.toLowerCase();
-            return this.items.filter((obj) => {
-                return obj.itemName.toLowerCase().indexOf(term) >= 0
-                    || obj.upc.toLowerCase().indexOf(term) >= 0
-                    || obj.itemDescription.toLowerCase().indexOf(term) >= 0;
+            const startingIndex = this.pageNumber === 1 ? 0 : (this.itemsPerPage * (this.pageNumber - 1));
+            const length = startingIndex + this.itemsPerPage;
+
+            return filteredItems.filter(function (el, i) {
+                return i >= startingIndex && i < length;
             });
         }
     },
@@ -118,6 +145,13 @@ export default {
                 </tr>
             </tbody>
         </table>
+
+        <pagination
+          :page-count="numberOfPages"
+          :current-page="pageNumber"
+          v-on:click-event="paginationClick">
+        </pagination>
+
     </div>
     `
 }

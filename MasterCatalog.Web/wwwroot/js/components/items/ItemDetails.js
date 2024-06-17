@@ -61,11 +61,11 @@ export default {
             _itemService.insert(self.item)
                 .then(function (response) {
                     self.item.itemID = response.data.itemID;
-                    self.$refs.messageCenter.success('Item added successfully!');
+                    self.messageCenter.success('Item added successfully!');
                 })
                 .catch(function (error) {
                     const msg = _errorHandler.getMessage(error);
-                    self.$refs.messageCenter.error(msg);
+                    self.messageCenter.error(msg);
                 })
                 .finally(function () {
                     self.saving = false;
@@ -82,11 +82,11 @@ export default {
 
             _itemService.update(self.item)
                 .then(function (response) {
-                    self.$refs.messageCenter.success('Item updated successfully!');
+                    self.messageCenter.success('Item updated successfully!');
                 })
                 .catch(function (error) {
                     const msg = _errorHandler.getMessage(error);
-                    self.$refs.messageCenter.error(msg);
+                    self.messageCenter.error(msg);
                 })
                 .finally(function () {
                     self.saving = false;
@@ -107,12 +107,12 @@ export default {
 
                     _itemService.delete(self.item.itemID)
                         .then(function (response) {
-                            self.$refs.messageCenter.success('Item deleted successfully! Use the left menu to return to the item list.');
+                            self.messageCenter.success('Item deleted successfully! Use the left menu to return to the item list.');
                             self.item.itemID = null;
                         })
                         .catch(function (error) {
                             const msg = _errorHandler.getMessage(error);
-                            self.$refs.messageCenter.error(msg);
+                            self.messageCenter.error(msg);
                         })
                         .finally(function () {
                             self.saving = false;
@@ -139,6 +139,7 @@ export default {
     },
     mounted() {
         this.loadUnitsOfMeasure();
+        this.messageCenter = this.$refs.messageCenter;
     },
     template: `
     <div id="itemDetails">
@@ -208,10 +209,9 @@ export default {
             </div>
         </div>
 
-        <div v-if="!loading">
+        <div>
             <message-center ref="messageCenter"></message-center>
-
-            <div class="p-3">
+            <div class="p-3" v-if="!loading">
                 <div class="row mb-2">
                     <div class="col-8">
                         <h4 class="mb-3">{{ item.itemID ? 'Item Details' : 'New Item' }}</h4>

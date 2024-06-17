@@ -12,6 +12,7 @@ namespace MasterCatalog.Dal
             services.AddAutoMapper(typeof(DalMapperProfile));
             services.Configure<DalOptions>(options);
             services.AddSingleton<IApplicationUserRepository, ApplicationUserRepository>();
+            services.AddSingleton<ICategoryRepository, CategoryRepository>();
             services.AddSingleton<ICompanyRepository, CompanyRepository>();
             services.AddSingleton<ICompanyCatalogRepository, CompanyCatalogRepository>();
             services.AddSingleton<IIngredientRepository, IngredientRepository>();
