@@ -32,6 +32,19 @@ namespace MasterCatalog.Api.Services
             return categories;
         }
 
+        public Dictionary<int, Category> GetCategoriesGroupedByCategoryID()
+        {
+            var categories = _categoryRepository.GetAll();
+            foreach (var category in categories) {
+                if (category.ParentCategoryID.HasValue)
+                {
+                    category.ParentCategory = categories.FirstOrDefault(x => x.CategoryID == category.ParentCategoryID);
+                }
+            }
+
+            return categories.ToDictionary(x => x.CategoryID.Value, y => y);
+        }
+
         public Category GetCategory(int id)
         {
             Category category = _categoryRepository.Get(id);            

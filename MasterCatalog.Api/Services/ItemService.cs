@@ -12,8 +12,9 @@ namespace MasterCatalog.Items.Api.Services
         private readonly IUnitOfMeasureService _unitOfMeasureService;
         private readonly IIngredientRepository _ingredientRepository;
         private readonly ICompanyCatalogRepository _companyCatalogRepository;
+        private readonly ICategoryService _categoryService;
 
-        public ItemService(IItemAttributeService itemAttributeService, IItemRepository itemRepository, IItemImageService itemImageService, IUnitOfMeasureService unitOfMeasureService, IIngredientRepository ingredientService, ICompanyCatalogRepository companyCatalogRepository)
+        public ItemService(IItemAttributeService itemAttributeService, IItemRepository itemRepository, IItemImageService itemImageService, IUnitOfMeasureService unitOfMeasureService, IIngredientRepository ingredientService, ICompanyCatalogRepository companyCatalogRepository, ICategoryService categoryService)
         {
             _itemAttributeService = itemAttributeService;
             _itemRepository = itemRepository;
@@ -21,21 +22,26 @@ namespace MasterCatalog.Items.Api.Services
             _unitOfMeasureService = unitOfMeasureService;
             _ingredientRepository = ingredientService;
             _companyCatalogRepository = companyCatalogRepository;
+            _categoryService = categoryService;
         }
 
         public List<Item> GetItems()
         {
             var items = _itemRepository.GetAll();
             var unitsOfMeasure = _unitOfMeasureService.GetUnitsOfMeasureGroupedByUnitOfMeasureID();
+            var categories = _categoryService.GetCategoriesGroupedByCategoryID();
 
             foreach (var item in items)
             {
-                if (!unitsOfMeasure.ContainsKey(item.UnitOfMeasureID))
+                if (unitsOfMeasure.ContainsKey(item.UnitOfMeasureID))
                 {
-                    continue;
+                    item.UnitOfMeasure = unitsOfMeasure[item.UnitOfMeasureID];
                 }
 
-                item.UnitOfMeasure = unitsOfMeasure[item.UnitOfMeasureID];
+                if (categories.ContainsKey(item.CategoryID))
+                {
+                    item.Category = categories[item.CategoryID];
+                }
             }
 
             return items;

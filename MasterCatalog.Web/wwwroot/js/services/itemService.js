@@ -39,6 +39,8 @@ export class ItemService {
         item.attributes = [];
         item.images = [];
         item.upc = response.upc;
+        item.categoryID = response.categoryID;
+        item.category = response.category;
         return item;
     }
 }

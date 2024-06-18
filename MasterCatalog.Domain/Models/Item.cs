@@ -27,7 +27,11 @@ namespace MasterCatalog.Domain.Models
         [DeniedValues(0, ErrorMessage = "Item quantity is required")]
         public double UnitQuantity { set; get; }
 
+        public int CategoryID { set; get; }
+
         public List<ItemAttribute> Attributes { get; set; }
+
+        public Category? Category { get; set; }
 
         public UnitOfMeasure? UnitOfMeasure { get; set; }
 

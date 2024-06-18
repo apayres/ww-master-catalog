@@ -18,5 +18,7 @@ namespace MasterCatalog.Dal.DataTransferObjects
         public int UnitOfMeasureID { set; get; }
 
         public double UnitQuantity { set; get; }
+
+        public int CategoryID { set; get; }
     }
 }

@@ -9,9 +9,12 @@
     unitOfMeasureIDError;
     unitQuantity;
     unitQuantityError;
+    categoryID;
+    categoryIDError;
     attributes;
     images;
     unitOfMeasure;
+    category;
 
 
     constructor(id, name, description, qty) {
@@ -49,6 +52,12 @@
             valid = false;
         }
 
+        const category = this.categoryID;
+        if (!category) {
+            this.categoryIDError = 'Category is Required.';
+            valid = false;
+        }
+
         return valid;
     }
 
@@ -57,5 +66,6 @@
         this.upcError = null;
         this.unitQuantityError = null;
         this.unitOfMeasureIDError = null;
+        this.categoryIDError = null;
     }
 }

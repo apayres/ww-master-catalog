@@ -6,7 +6,6 @@ import { default as Pagination } from '../shared/pagination/Pagination.js';
 import { ItemService } from '../../services/itemService.js';
 import { ErrorHandler } from '../../utilities/errorHandler.js';
 
-
 const _itemService = new ItemService();
 const _errorHandler = new ErrorHandler();
 
@@ -46,15 +45,7 @@ export default {
             _itemService.get()
                 .then(function (response) {
                     self.items = response.data;
-                    const numberOfPages = self.items.length / self.itemsPerPage;
-                    const numberOfPagesRounded = Math.round(numberOfPages);
-
-                    if (numberOfPages > numberOfPagesRounded) {
-                        self.numberOfPages = numberOfPagesRounded + 1;
-                    }
-                    else {
-                        self.numberOfPages = numberOfPagesRounded;
-                    }
+                    self.formatPagination(self.items);
                 })
                 .catch(function (error) {
                     const msg = _errorHandler.getMessage(error, 'Could not load items');
@@ -64,12 +55,26 @@ export default {
                     self.loading = false;
                 });
         },
+        formatPagination(items) {
+            const numberOfPages = items.length / this.itemsPerPage;
+            const numberOfPagesRounded = Math.round(numberOfPages);
+
+            if (numberOfPages > numberOfPagesRounded) {
+                this.numberOfPages = numberOfPagesRounded + 1;
+            }
+            else {
+                this.numberOfPages = numberOfPagesRounded;
+            }
+        },
         viewClick(id) {
             window.location.href = '/Items/Index/' + id;
             return false;
         },
         paginationClick(pageNumber) {
             this.pageNumber = pageNumber;
+        },
+        getFormattedCategoryName(category) {
+            return category.parentCategory ? category.parentCategory.categoryName + ' > ' + category.categoryName : category.categoryName;
         }
     },
     computed: {
@@ -88,6 +93,8 @@ export default {
                         || obj.itemDescription.toLowerCase().indexOf(term) >= 0;
                 });
             }
+
+            this.formatPagination(filteredItems);
 
             const startingIndex = this.pageNumber === 1 ? 0 : (this.itemsPerPage * (this.pageNumber - 1));
             const length = startingIndex + this.itemsPerPage;
@@ -116,7 +123,7 @@ export default {
         <table-placeholder
             :show="loading"
             rows="10"
-            columns="4">
+            columns="5">
         </table-placeholder>
 
         <table class="table" v-if="!loading">
@@ -124,6 +131,7 @@ export default {
                 <tr>
                     <th class="p-3">Upc</th>
                     <th class="p-3">Name</th>
+                    <th class="p-3">Category</th>
                     <th class="p-3">Description</th>
                     <th class="p-3">Unit of Measure</th>
                     <th class="p-3"></th>
@@ -133,6 +141,7 @@ export default {
                 <tr v-for:="item in filteredItems">
                     <td class="p-3">{{item.upc}}</td>
                     <td class="p-3">{{item.itemName}}</td>
+                    <td class="p-3">{{getFormattedCategoryName(item.category)}}</td>
                     <td class="p-3">{{item.itemDescription}}</td>
                     <td class="p-3">{{item.unitOfMeasure && item.unitOfMeasure.unitOfMeasureName}} ({{ item.unitQuantity }})</td>
                     <td class="p-3 text-end">

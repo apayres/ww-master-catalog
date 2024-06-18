@@ -6,11 +6,14 @@ import { default as CompanySelector } from './CompanySelectorjs.js';
 import { default as DialogConfirmation } from '../Shared/Dialogs/DialogConfirmation.js'
 
 import { ItemService } from '../../services/itemService.js';
+import { CategoryService } from '../../services/categoryService.js';
 import { UnitOfMeasureService } from '../../services/unitofmeasure-service.js';
 import { ErrorHandler } from '../../utilities/errorHandler.js';
 import { Item } from '../../models/item.js';
+import { Category } from '../../models/category.js';
 
 const _itemService = new ItemService();
+const _categoryService = new CategoryService();
 const _uomService = new UnitOfMeasureService();
 const _errorHandler = new ErrorHandler();
 
@@ -20,6 +23,7 @@ export default {
     data() {
         return {
             unitsOfMeasure: [],
+            categories: [],
             saving: false
         }
     },
@@ -45,6 +49,38 @@ export default {
                 })
                 .catch(function (error) {
                     const msg = _errorHandler.getMessage(error);
+                    self.messageCenter.error(msg);
+                })
+                .finally(function () {
+                });
+        },
+        loadCategories() {
+            const self = this;
+
+            _categoryService.get()
+                .then(function (response) {
+                    const formattedCategoryList = [];
+
+                    response.data.forEach((obj) => {
+                        formattedCategoryList.push(new Category(
+                            obj.categoryID,
+                            obj.categoryName,
+                            obj.categoryDescription,
+                            obj.parentCategory,
+                            obj.subCategories
+                        ));
+
+                        if (obj.subCategories) {
+                            obj.subCategories.forEach((sub) => {
+                                formattedCategoryList.push(new Category(sub.categoryID, sub.categoryName, sub.categoryDescription, obj, []));
+                            });
+                        }
+                    });
+
+                    self.categories = formattedCategoryList;
+                })
+                .catch(function (error) {
+                    const msg = _errorHandler.getMessage(error, "Could not load categories.");
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {
@@ -135,11 +171,15 @@ export default {
             companySelector.show(function () {
                 self.messageCenter.success('Item added to company catalog successfully!');
             });
+        },
+        getFormattedCategoryName(category) {
+            return category.parentCategory ? category.parentCategory.categoryName + ' > ' + category.categoryName : category.categoryName;
         }
     },
     mounted() {
-        this.loadUnitsOfMeasure();
         this.messageCenter = this.$refs.messageCenter;
+        this.loadUnitsOfMeasure();
+        this.loadCategories();
     },
     template: `
     <div id="itemDetails">
@@ -250,6 +290,14 @@ export default {
                 </div>
 
                 <div class="row mb-2">
+                    <div class="col-5">
+                        <label class="form-label">Category</label>
+                        <select class="form-select" v-model="item.categoryID" :disabled="categories.length === 0">
+                            <option>Select Category...</option>
+                            <option v-for:="category in categories" :value="category.categoryID" :title="category.categoryDescription"> {{ getFormattedCategoryName(category) }}</option>
+                        </select>
+                        <span class="text-danger" v-if="item.categoryIDError">{{item.categoryIDError}}</span>
+                    </div>
                     <div class="col-3">
                         <label class="form-label">Unit of Measure</label>
                         <select class="form-select" v-model="item.unitOfMeasureID" :disabled="unitsOfMeasure.length === 0">
