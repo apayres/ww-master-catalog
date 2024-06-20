@@ -28,6 +28,26 @@ export class CategoryService {
         return categories;
     }
 
+    async getFormattedCategoryList(rootCategories) {
+        let categories = rootCategories;
+        if (!categories) {
+            categories = await this.get();
+        }
+
+        let formattedCategories = [];
+        categories.forEach((obj) => {
+            formattedCategories.push(obj);
+
+            if (obj.subCategories) {
+                obj.subCategories.forEach((sub) => {
+                    formattedCategories.push(sub);
+                });
+            }
+        });
+
+        return formattedCategories;
+    }
+
     mapToModel(obj) {
         const category = new Category(
             obj.categoryID,
@@ -40,12 +60,25 @@ export class CategoryService {
                 obj.parentCategory.categoryID,
                 obj.parentCategory.categoryName,
                 obj.parentCategory.categoryDescription
-            ); 
+            );
+
+            category.categoryDisplayName = category.parentCategory.categoryName + ' > ' + category.categoryName;
+        }
+        else {
+            category.categoryDisplayName = category.categoryName;
         }
 
         if (obj.subCategories) {
             category.subCategories = obj.subCategories.map((sub) => {
-                return new Category(sub.categoryID, sub.categoryName, sub.categoryDescription, category, []);
+                const subCategory = new Category(
+                    sub.categoryID,
+                    sub.categoryName,
+                    sub.categoryDescription,
+                    category, []
+                );
+
+                subCategory.categoryDisplayName = category.categoryName + ' > ' + subCategory.categoryName
+                return subCategory;
             });
         }
 

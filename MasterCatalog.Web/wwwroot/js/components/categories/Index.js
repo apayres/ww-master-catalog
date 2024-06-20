@@ -33,7 +33,7 @@ createApp({
         loadCategories() {
             const self = this;
 
-            _service.get()
+            _service.getFormattedCategoryList()
                 .then(function (categories) {
                     self.categories = categories;
                 })

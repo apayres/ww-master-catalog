@@ -7,6 +7,7 @@
     subCategories = [];
     parentCategoryID;
     parentCategory = {};
+    categoryDisplayName;
 
     constructor(id, name, description, parent, subCategories) {
         this.categoryID = id;

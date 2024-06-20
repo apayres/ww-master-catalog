@@ -38,7 +38,7 @@ export default {
     template: `
         <div class="row mb-3">
             <div class="col-4">
-                <div class="input-group">
+                <div class="input-group mt-2">
                     <input v-on:keyup.enter="searchClick" type="text" class="form-control" placeholder="Search catalog..." v-model="searchTerm" />
                     <span class="input-group-text">
                         <button-icon

@@ -72,9 +72,6 @@ export default {
         },
         paginationClick(pageNumber) {
             this.pageNumber = pageNumber;
-        },
-        getFormattedCategoryName(category) {
-            return category.parentCategory ? category.parentCategory.categoryName + ' > ' + category.categoryName : category.categoryName;
         }
     },
     computed: {
@@ -141,7 +138,7 @@ export default {
                 <tr v-for:="item in filteredItems">
                     <td class="p-3">{{item.upc}}</td>
                     <td class="p-3">{{item.itemName}}</td>
-                    <td class="p-3">{{getFormattedCategoryName(item.category)}}</td>
+                    <td class="p-3">{{item.category.categoryDisplayName}}</td>
                     <td class="p-3">{{item.itemDescription}}</td>
                     <td class="p-3">{{item.unitOfMeasure && item.unitOfMeasure.unitOfMeasureName}} ({{ item.unitQuantity }})</td>
                     <td class="p-3 text-end">

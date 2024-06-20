@@ -24,14 +24,11 @@ export default {
             if (!this.model.validate()) {
                 return false;
             }
-            console.log(this.model);
+
             this.$emit('update-item', this.model);
         },
         cancelClick() {
             this.$emit('cancel-form-action');
-        },
-        getFormattedCategoryName(category) {
-            return category.parentCategory ? category.parentCategory.categoryName + ' > ' + category.categoryName : category.categoryName;
         }
     },
     computed: {

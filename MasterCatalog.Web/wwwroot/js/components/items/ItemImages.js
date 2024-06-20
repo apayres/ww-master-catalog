@@ -83,7 +83,7 @@ export default {
                     <img
                         v-if="primaryImage"
                         :src="primaryImage.absoluteUri"
-                        class="w-100 border" />
+                        class="w-100" />
 
                         <div v-if="images.length > 0">
                             <img

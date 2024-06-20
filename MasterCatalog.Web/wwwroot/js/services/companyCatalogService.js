@@ -1,7 +1,9 @@
 ﻿import { ApiUtility } from '../utilities/apiHelper.js';
 import { CatalogItem } from '../models/catalogItem.js';
+import { ItemService } from './itemService.js';
 
 const _api = new ApiUtility('companycatalog');
+const _itemService = new ItemService();
 
 export class CompanyCatalogService {
 
@@ -34,7 +36,7 @@ export class CompanyCatalogService {
     }
 
     async getByItem(itemId) {
-        const response = await _api.get({ id: itemId }, 'ByItem');
+        const response = await _api.get(null, 'ByItem/' + itemId);
         const items = response.data.map((obj) => {
             return this.mapToModel(obj);
         });
@@ -43,7 +45,7 @@ export class CompanyCatalogService {
     }
 
     async items(id) {
-        const response = await _api.get({ id }, 'items');
+        const response = await _api.get(null, 'items/' + id);
         const items = response.data.map((obj) => {
             return this.mapToModel(obj);
         });
@@ -52,13 +54,25 @@ export class CompanyCatalogService {
     }
 
     mapToModel(obj) {
-        const catelogItem = new CatalogItem(
+        const catalogItem = new CatalogItem(
             obj.companyCatalogID,
             obj.companyID,
             obj.itemID,
             obj.retailPrice
         );
-
-        return catelogItem;
+        
+        const item = _itemService.mapToModel(obj);
+        catalogItem.itemName = item.itemName;
+        catalogItem.itemDescription = item.itemDescription;
+        catalogItem.unitQuantity = item.unitQuantity;
+        catalogItem.unitOfMeasureID = item.unitOfMeasureID;
+        catalogItem.unitOfMeasure = item.unitOfMeasure;
+        catalogItem.images = item.images;
+        catalogItem.upc = item.upc;
+        catalogItem.categoryID = item.categoryID;
+        catalogItem.category = item.category;
+        catalogItem.attributes = item.attributes;
+        
+        return catalogItem;
     }
 }

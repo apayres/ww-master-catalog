@@ -38,9 +38,6 @@ export default {
                     return false;
                 }
             );
-        },
-        getFormattedCategoryName(category) {
-            return category.parentCategory ? category.parentCategory.categoryName + ' > ' + category.categoryName : category.categoryName;
         }
     },
     template: `
@@ -60,8 +57,8 @@ export default {
             </thead>
             <tbody>
                 <tr v-for:="category in categories">
-                    <td class="p-3">{{ getFormattedCategoryName(category) }}</td>
-                    <td class="p-3">{{category.categoryDescription}}</td>
+                    <td class="p-3">{{ category.categoryDisplayName }}</td>
+                    <td class="p-3">{{ category.categoryDescription }}</td>
                     <td class="p-3 text-end" style="min-width: 120px">                       
 
                         <button-icon

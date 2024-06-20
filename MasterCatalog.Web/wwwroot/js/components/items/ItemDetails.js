@@ -56,7 +56,7 @@ export default {
         loadCategories() {
             const self = this;
 
-            _categoryService.get()
+            _categoryService.getFormattedCategoryList()
                 .then(function (categories) {
                     self.categories = categories;
                 })
@@ -102,7 +102,7 @@ export default {
                     self.messageCenter.success('Item updated successfully!');
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error);
+                    const msg = _errorHandler.getMessage(error, "Could not update item.");
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {

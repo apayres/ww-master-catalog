@@ -1,7 +1,13 @@
 ﻿import { ApiUtility } from '../utilities/apiHelper.js';
 import { Item } from '../models/item.js';
+import { CategoryService } from './categoryService.js';
+import { UnitOfMeasureService } from './unitOfMeasureService.js';
+import { ItemAttributeService } from './itemAttributeService.js';
 
 const _api = new ApiUtility('item');
+const _categoryService = new CategoryService();
+const _unitOfMeasureService = new UnitOfMeasureService();
+const _itemAttributeService = new ItemAttributeService();
 
 export class ItemService {
 
@@ -11,6 +17,10 @@ export class ItemService {
     }
 
     async update(obj) {
+        obj.unitOfMeasure = null;
+        obj.category = null;
+        obj.attributes = [];
+
         const response = await _api.update(obj);
         return this.mapToModel(response.data);
     }
@@ -40,14 +50,26 @@ export class ItemService {
             response.itemDescription,
             response.unitQuantity
         );
-
+        
         item.unitOfMeasureID = response.unitOfMeasureID;
-        item.unitOfMeasure = response.unitOfMeasure;
-        item.attributes = [];
         item.images = [];
         item.upc = response.upc;
         item.categoryID = response.categoryID;
-        item.category = response.category;
+
+        if (response.attributes) {
+            item.attributes = response.attributes.map((attr) => {
+                return _itemAttributeService.mapToModel(attr);
+            });
+        }
+
+        if (response.unitOfMeasure) {
+            item.unitOfMeasure = _unitOfMeasureService.mapToModel(response.unitOfMeasure);
+        }
+
+        if (response.category) {
+            item.category = _categoryService.mapToModel(response.category);
+        }
+        
         return item;
     }
 }
