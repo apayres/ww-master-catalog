@@ -54,12 +54,14 @@ export default {
         <table class="table" v-if="!processing">
             <thead>
                 <tr>
-                    <th class="p-3" colspan="2">Name</th>
+                    <th class="p-3">Name</th>
+                    <th class="p-3" colspan="2">Code</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for:="company in companies">
                     <td class="p-3">{{company.companyName}}</td>
+                    <td class="p-3">{{company.companyCode}}</td>
                     <td class="p-3 text-end" style="min-width: 200px">
                         <button-icon
                             icon="bi-journal"

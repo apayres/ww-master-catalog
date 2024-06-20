@@ -1,32 +1,39 @@
 ﻿import { ApiUtility } from '../utilities/apiHelper.js';
 import { Item } from '../models/item.js';
 
-const _url = window.ApiBaseUrl + 'item';
-const repo = new ApiUtility();
+const _api = new ApiUtility('item');
 
 export class ItemService {
 
-    insert(obj) {
-        return repo.insert(_url, obj);
+    async insert(obj) {
+        const response = await _api.insert(obj);
+        return this.mapToModel(response.data);
     }
 
-    update(obj) {
-        return repo.update(_url, obj);
+    async update(obj) {
+        const response = await _api.update(obj);
+        return this.mapToModel(response.data);
     }
 
-    delete(id) {
-        return repo.delete(_url, id);
+    async delete(id) {
+        return _api.delete(id);
     }
 
-    get() {
-        return repo.get(_url);
+    async get() {
+        const response = await _api.get();
+        const items = response.data.map((obj) => {
+            return this.mapToModel(obj);
+        });
+
+        return items;
     }
 
-    getById(id) {
-        return repo.get(_url + '/' + id);
+    async getById(id) {
+        const response = await _api.get(null, id);
+        return this.mapToModel(response.data);
     }
 
-    mapResponseToModel(response) {
+    mapToModel(response) {
         const item = new Item(
             response.itemID,
             response.itemName,

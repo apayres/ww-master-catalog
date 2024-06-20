@@ -1,5 +1,5 @@
 import { createApp, toRaw } from 'vue';
-import { UnitOfMeasureService } from '../../services/unitofmeasure-service.js';
+import { UnitOfMeasureService } from '../../services/unitofmeasureService.js';
 import { ErrorHandler } from '../../utilities/errorHandler.js';
 import { UnitOfMeasure } from '../../models/unitOfMeasure.js';
 import { default as UnitOfMeasureForm } from './UnitOfMeasureForm.js';
@@ -34,16 +34,16 @@ createApp({
             self.processing = true;
             
             _service.insert(toRaw(uom))
-                .then(function (response) {
-                    self.unitsOfMeasure.push(response.data);                    
+                .then(function (uom) {
+                    self.unitsOfMeasure.push(uom);                    
                     self.messageCenter.success('Unit of measure added successfully!');
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error);
+                    const msg = _errorHandler.getMessage(error, "Could not add Unit of Measure.");
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {
-                    self.form.model = new UnitOfMeasure()
+                    self.resetForm();
                     self.processing = false;
                 });
         },
@@ -52,18 +52,17 @@ createApp({
             self.processing = true;
 
             _service.update(toRaw(uom))
-                .then(function (response) {
-                    const updatedUom = response.data;
-                    const index = self.unitsOfMeasure.findIndex((x) => x.unitOfMeasureID == updatedUom.unitOfMeasureID);
+                .then(function (uom) {
+                    const index = self.unitsOfMeasure.findIndex((x) => x.unitOfMeasureID == uom.unitOfMeasureID);
 
                     if (index > -1) {
-                        self.unitsOfMeasure[index] = updatedUom;
+                        self.unitsOfMeasure[index] = uom;
                     }
 
                     self.messageCenter.success('Unit of measure updated successfully!');
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error);
+                    const msg = _errorHandler.getMessage(error, "Could not update Unit of Measure.");
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {
@@ -85,7 +84,7 @@ createApp({
                     self.messageCenter.success('Unit of measure deleted successfully!');
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error);
+                    const msg = _errorHandler.getMessage(error, "Could not delete Unit of Measure.");
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {
@@ -108,11 +107,11 @@ createApp({
         self.messageCenter = this.$refs.messageCenter;
 
         _service.get()
-            .then(function (response) {
-                self.unitsOfMeasure = response.data;
+            .then(function (uoms) {
+                self.unitsOfMeasure = uoms;
             })
             .catch(function (error) {
-                const msg = _errorHandler.getMessage(error);
+                const msg = _errorHandler.getMessage(error, "Could not load Units of Measure.");
                 self.messageCenter.error(msg);
             })
             .finally(function () {

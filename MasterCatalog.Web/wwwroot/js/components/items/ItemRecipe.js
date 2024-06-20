@@ -32,8 +32,8 @@ export default {
             }
 
             _service.getRecipe(itemID)
-                .then(function (response) {
-                    self.ingredients = response.data;
+                .then(function (ingredients) {
+                    self.ingredients = ingredients;
                 })
                 .catch(function (error) {
                     const msg = _errorHandler.getMessage(error, 'Could not load ingredients');

@@ -1,4 +1,4 @@
-﻿using MasterCatalog.Web.Models.Security;
+﻿using MasterCatalog.Web.Authentication;
 
 namespace MasterCatalog.Web.Services
 {

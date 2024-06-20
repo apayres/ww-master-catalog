@@ -1,12 +1,31 @@
 import axios from 'axios';
 
-export class ApiUtility {
+const buildUrl = async (path) => {
 
-    insert(url, data) {
+    if (window.ApiBaseUrl) {
+        return window.ApiBaseUrl + path;
+    }
+
+    const promise = await axios.get('/Configuration/Index');
+    window.ApiBaseUrl = promise.data.apiBaseUrl;
+
+    return window.ApiBaseUrl + path;
+}
+
+export class ApiUtility {
+    _path = '';
+
+    constructor(path) {
+        this._path = path;
+    }
+    
+    async insert(data) {
+        const url = await buildUrl(this._path);
         return axios.post(url, data);
     }
 
-    upload(url, data) {
+    async upload(data) {
+        const url = await buildUrl(this._path);
         return axios.post(url, data, {
             headers: {
                 "Content-Type": "multipart/form-data",
@@ -14,17 +33,39 @@ export class ApiUtility {
         });
     }
 
-    update(url, data) {
+    async update(data) {
+        const url = await buildUrl(this._path);
         return axios.put(url, data);
     }
 
-    delete(url, id) {
+    async delete(id, data) {
+        let url = await buildUrl(this._path);
+
+        if (data) {
+            let params = [];
+            for (const prop in data) {
+                params.push(`${prop}=${data[prop]}`);
+            }
+
+            return axios.delete(url + '?' + params.join('&'));
+        }
+
         return axios.delete(url + '/' + id);
     }
+    
+    async get(data, pathAddendum) {
+        let url = await buildUrl(this._path);
+        if (pathAddendum) {
+            url = url + '/' + pathAddendum;
+        }
 
-    get(url, data) {
         if (data) {
-            return axios.get(url, data);
+            let params = [];
+            for (const prop in data) {
+                params.push(`${prop}=${data[prop]}`);
+            }
+
+            return axios.get(url + '?' + params.join('&'));
         }
 
         return axios.get(url);

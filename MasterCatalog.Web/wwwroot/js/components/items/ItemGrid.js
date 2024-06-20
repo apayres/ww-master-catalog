@@ -43,8 +43,8 @@ export default {
             const self = this;
 
             _itemService.get()
-                .then(function (response) {
-                    self.items = response.data;
+                .then(function (items) {
+                    self.items = items;
                     self.formatPagination(self.items);
                 })
                 .catch(function (error) {

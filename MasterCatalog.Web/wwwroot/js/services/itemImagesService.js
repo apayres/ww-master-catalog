@@ -1,23 +1,41 @@
 ﻿import { ApiUtility } from '../utilities/apiHelper.js';
+import { ItemImage } from '../models/itemImage.js';
 
-const _url = window.ApiBaseUrl + 'itemimages';
-const repo = new ApiUtility();
+const _api = new ApiUtility('itemimages');
 
 export class ItemImagesService {
 
-    upload(obj) {
-        return repo.upload(_url, obj);
+    async upload(obj) {
+        const response = await _api.upload(obj);
+        return this.mapToModel(response.data);
     }
 
-    update(obj) {
-        return repo.update(_url, obj);
+    async update(obj) {
+        const response = await _api.update(obj);
+        return this.mapToModel(response.data);
     }
 
-    delete(id, upc) {
-        return repo.delete(_url, '?id=' + id + '&upc=' + upc);
+    async delete(id, upc) {
+        return _api.delete(null, { id, upc });
     }
 
-    getItemImages(id) {
-        return repo.get(_url + '/' + id);
+    async getItemImages(id) {
+        const response = await _api.get(null, id);
+        const images = response.data.map((obj) => {
+            return this.mapToModel(obj);
+        });
+
+        return images;
+    }
+
+    mapToModel(obj) {
+        const image = new ItemImage(
+            obj.itemImageID,
+            obj.itemID,
+            obj.absoluteUri,
+            obj.displayOrder
+        );
+
+        return image;
     }
 }

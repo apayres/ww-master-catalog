@@ -7,10 +7,9 @@ import { default as DialogConfirmation } from '../Shared/Dialogs/DialogConfirmat
 
 import { ItemService } from '../../services/itemService.js';
 import { CategoryService } from '../../services/categoryService.js';
-import { UnitOfMeasureService } from '../../services/unitofmeasure-service.js';
+import { UnitOfMeasureService } from '../../services/unitofmeasureService.js';
 import { ErrorHandler } from '../../utilities/errorHandler.js';
 import { Item } from '../../models/item.js';
-import { Category } from '../../models/category.js';
 
 const _itemService = new ItemService();
 const _categoryService = new CategoryService();
@@ -44,11 +43,11 @@ export default {
             const self = this;
 
             _uomService.get()
-                .then(function (response) {
-                    self.unitsOfMeasure = response.data;
+                .then(function (uoms) {
+                    self.unitsOfMeasure = uoms;
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error);
+                    const msg = _errorHandler.getMessage(error, "Could not load Units of Measure.");
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {
@@ -58,26 +57,8 @@ export default {
             const self = this;
 
             _categoryService.get()
-                .then(function (response) {
-                    const formattedCategoryList = [];
-
-                    response.data.forEach((obj) => {
-                        formattedCategoryList.push(new Category(
-                            obj.categoryID,
-                            obj.categoryName,
-                            obj.categoryDescription,
-                            obj.parentCategory,
-                            obj.subCategories
-                        ));
-
-                        if (obj.subCategories) {
-                            obj.subCategories.forEach((sub) => {
-                                formattedCategoryList.push(new Category(sub.categoryID, sub.categoryName, sub.categoryDescription, obj, []));
-                            });
-                        }
-                    });
-
-                    self.categories = formattedCategoryList;
+                .then(function (categories) {
+                    self.categories = categories;
                 })
                 .catch(function (error) {
                     const msg = _errorHandler.getMessage(error, "Could not load categories.");
@@ -95,12 +76,12 @@ export default {
             self.saving = true;
 
             _itemService.insert(self.item)
-                .then(function (response) {
-                    self.item.itemID = response.data.itemID;
+                .then(function (item) {
+                    self.item.itemID = item.itemID;
                     self.messageCenter.success('Item added successfully!');
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error);
+                    const msg = _errorHandler.getMessage(error, "Could not add item.");
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {

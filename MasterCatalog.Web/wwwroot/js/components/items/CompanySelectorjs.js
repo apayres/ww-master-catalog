@@ -36,8 +36,8 @@ export default {
             const self = this;
 
             _companyService.get()
-                .then(function (response) {
-                    self.companies = response.data;
+                .then(function (companies) {
+                    self.companies = companies;
                     self.filterCompanies();
                 })
                 .catch(function (error) {
@@ -52,9 +52,7 @@ export default {
             const self = this;
 
             _catalogService.getByItem(self.itemId)
-                .then(function (response) {
-                    const catalog = response.data;
-
+                .then(function (catalog) {
                     catalog.forEach((catalogEntry) => {
                         const index = self.companies.findIndex((x) => x.companyID == catalogEntry.companyID);
                         if (index > -1) {

@@ -44,8 +44,8 @@ export default {
             const self = this;
 
             _service.insert(obj)
-                .then(function (response) {
-                    self.attributeValue = response.data;
+                .then(function (attributeValue) {
+                    self.attributeValue = attributeValue;
                     self.success = true;
                     self.failed = false;
                 })
@@ -63,8 +63,8 @@ export default {
             const self = this;
 
             _service.update(obj)
-                .then(function (response) {
-                    self.attributeValue = response.data;
+                .then(function (attributeValue) {
+                    self.attributeValue = attributeValue;
                     self.success = true;
                     self.failed = false;
                 })

@@ -34,8 +34,8 @@ export default {
             const self = this;
 
             _service.getItemImages(self.itemId)
-                .then(function (response) {
-                    self.images = response.data;
+                .then(function (images) {
+                    self.images = images;
                 })
                 .catch(function (error) {
                     const msg = _errorHandler.getMessage(error, 'Problem loading image!');
@@ -55,8 +55,7 @@ export default {
             formData.append('ImageDetails.ItemID', this.itemId);
 
             _service.upload(formData)
-                .then(function (response) {
-                    const image = response.data;
+                .then(function (image) {
                     self.images.push(image);
                     self.messageCenter.success('Image uploaded successfully!');
                 })

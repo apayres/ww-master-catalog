@@ -35,8 +35,8 @@ createApp({
             attribute.attributeValue = null;
 
             _service.insert(toRaw(attribute))
-                .then(function (response) {
-                    self.attributes.push(response.data);
+                .then(function (attribute) {
+                    self.attributes.push(attribute);
                     self.messageCenter.success('Item Attribute added successfully!');
                 })
                 .catch(function (error) {
@@ -54,8 +54,7 @@ createApp({
             attribute.attributeValue = null;
 
             _service.update(toRaw(attribute))
-                .then(function (response) {
-                    const updatedAttribute = response.data;
+                .then(function (updatedAttribute) {
                     const index = self.attributes.findIndex((x) => x.itemAttributeID == updatedAttribute.itemAttributeID);
 
                     if (index > -1) {
@@ -112,11 +111,11 @@ createApp({
         self.messageCenter = this.$refs.messageCenter;
 
         _service.get()
-            .then(function (response) {
-                self.attributes = response.data;
+            .then(function (attributes) {
+                self.attributes = attributes;
             })
             .catch(function (error) {
-                const msg = _errorHandler.getMessage(error);
+                const msg = _errorHandler.getMessage(error, "Could not load attributes.");
                 self.messageCenter.error(msg);
             })
             .finally(function () {

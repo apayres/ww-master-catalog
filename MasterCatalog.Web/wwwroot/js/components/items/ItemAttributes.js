@@ -46,8 +46,8 @@ export default {
 
             self.itemID = itemID;
             _attributeService.getItemAttributes(itemID)
-                .then(function (response) {
-                    self.attributes = response.data;
+                .then(function (attributes) {
+                    self.attributes = attributes;
                     self.attributes.forEach((obj) => {
                         obj.useWithItem = obj.attributeValue && obj.attributeValue.itemAttributeValueID > 0;
                     });
@@ -70,15 +70,10 @@ export default {
             }
 
             _attributeValueService.delete(attribute.attributeValue.itemAttributeValueID)
-                .then(function (response) {
-                })
                 .catch(function (error) {
                     const msg = _errorHandler.getMessage(error, 'Problem deleting image!');
                     self.messageCenter.error(msg);
                 })
-                .finally(function () {
-
-                });
         },
         openAttributeSelector() {
             const self = this;

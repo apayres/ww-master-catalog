@@ -34,13 +34,12 @@ createApp({
             self.processing = true;
 
             _service.insert(toRaw(company))
-                .then(function (response) {
-                    self.companies.push(response.data);
+                .then(function (insertedCompany) {
+                    self.companies.push(insertedCompany);
                     self.messageCenter.success('Company added successfully!');
                 })
                 .catch(function (error) {
-                    console.log(error);
-                    const msg = _errorHandler.getMessage(error);
+                    const msg = _errorHandler.getMessage(error, "Error inserting company.");
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {
@@ -53,8 +52,7 @@ createApp({
             self.processing = true;
 
             _service.update(toRaw(company))
-                .then(function (response) {
-                    const updatedCompany = response.data;
+                .then(function (updatedCompany) {
                     const index = self.companies.findIndex((x) => x.companyID == updatedCompany.companyID);
 
                     if (index > -1) {
@@ -64,7 +62,7 @@ createApp({
                     self.messageCenter.success('Company updated successfully!');
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error);
+                    const msg = _errorHandler.getMessage(error, "Error updating company");
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {
@@ -86,7 +84,7 @@ createApp({
                     self.messageCenter.success('Company deleted successfully!');
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error);
+                    const msg = _errorHandler.getMessage(error, "Error deleting company");
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {
@@ -96,7 +94,8 @@ createApp({
         loadForm(company) {
             this.form.model = new Company(
                 company.companyID,
-                company.companyName
+                company.companyName,
+                company.companyCode
             );
         },
         resetForm() {
@@ -108,8 +107,8 @@ createApp({
         self.messageCenter = this.$refs.messageCenter;
 
         _service.get()
-            .then(function (response) {
-                self.companies = response.data;
+            .then(function (companies) {
+                self.companies = companies;
             })
             .catch(function (error) {
                 const msg = _errorHandler.getMessage(error);

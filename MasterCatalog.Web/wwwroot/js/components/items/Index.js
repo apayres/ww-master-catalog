@@ -40,8 +40,8 @@ createApp({
             }
 
             _itemService.getById(self.itemId)
-                .then(function (response) {
-                    self.model = _itemService.mapResponseToModel(response.data);
+                .then(function (item) {
+                    self.model = item;
                     completeCallback();
                 })
                 .catch(function (error) {

@@ -1,35 +1,64 @@
 ﻿import { ApiUtility } from '../utilities/apiHelper.js';
+import { CatalogItem } from '../models/catalogItem.js';
 
-const _url = window.ApiBaseUrl + 'companycatalog';
-const repo = new ApiUtility();
+const _api = new ApiUtility('companycatalog');
 
 export class CompanyCatalogService {
 
-    insert(obj) {
-        return repo.insert(_url, obj);
+    async insert(obj) {
+        const response = await _api.insert(obj);
+        return this.mapToModel(response.data);
     }
 
-    update(obj) {
-        return repo.update(_url, obj);
+    async update(obj) {
+        const response = await _api.update(obj);
+        return this.mapToModel(response.data);
     }
 
-    delete(id) {
-        return repo.delete(_url, id);
+    async delete(id) {
+        return _api.delete(id);
     }
 
-    getByCompany(id) {
-        return repo.get(_url + '?id=' + id);
+    async getByCompany(id) {
+        const response = await _api.get({ id });
+        const items = response.data.map((obj) => {
+            return this.mapToModel(obj);
+        });
+
+        return items;
     }
 
-    getByCompanyAndItem(companyId, itemId) {
-        return repo.get(_url + '?companyId=' + companyId + '&itemId=' + itemId);
+    async getByCompanyAndItem(companyId, itemId) {
+        const response = await _api.get({ companyId, itemId });
+        return this.mapToModel(response.data);
     }
 
-    getByItem(itemId) {
-        return repo.get(_url + '/ByItem/' + itemId);
+    async getByItem(itemId) {
+        const response = await _api.get({ id: itemId }, 'ByItem');
+        const items = response.data.map((obj) => {
+            return this.mapToModel(obj);
+        });
+
+        return items;
     }
 
-    items(id) {
-        return repo.get(_url + '/items/' + id);
+    async items(id) {
+        const response = await _api.get({ id }, 'items');
+        const items = response.data.map((obj) => {
+            return this.mapToModel(obj);
+        });
+
+        return items;
+    }
+
+    mapToModel(obj) {
+        const catelogItem = new CatalogItem(
+            obj.companyCatalogID,
+            obj.companyID,
+            obj.itemID,
+            obj.retailPrice
+        );
+
+        return catelogItem;
     }
 }

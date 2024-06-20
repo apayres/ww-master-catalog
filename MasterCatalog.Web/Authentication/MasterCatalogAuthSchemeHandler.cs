@@ -1,5 +1,4 @@
-﻿using MasterCatalog.Web.Models.Security;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
@@ -35,7 +34,8 @@ namespace MasterCatalog.Web.Authentication
             {
                 new Claim(ClaimTypes.Name, appUser.UserName),
                 new Claim(ClaimTypes.Surname, appUser.LastName),
-                new Claim(ClaimTypes.GivenName, appUser.FirstName)
+                new Claim(ClaimTypes.GivenName, appUser.FirstName),
+                new Claim(ClaimTypes.Role, appUser.Role.ToString())
             }, "Basic");
 
             var principle = new ClaimsPrincipal(identity);

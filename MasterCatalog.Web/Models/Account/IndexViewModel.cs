@@ -1,13 +1,13 @@
-﻿namespace MasterCatalog.Web.Models.Security
+﻿namespace MasterCatalog.Web.Models.Account
 {
-    public class ApplicationUser
+    public class IndexViewModel
     {
-        public int? ApplicationUserID { get; set; }
-
         public string UserName { get; set; }
 
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+
+        public string RoleName { get; set; }
     }
 }

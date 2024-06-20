@@ -34,26 +34,8 @@ createApp({
             const self = this;
 
             _service.get()
-                .then(function (response) {
-                    const formattedCategoryList = [];
-
-                    response.data.forEach((obj) => {
-                        formattedCategoryList.push(new Category(
-                            obj.categoryID,
-                            obj.categoryName,
-                            obj.categoryDescription,
-                            obj.parentCategory,
-                            obj.subCategories
-                        ));
-
-                        if (obj.subCategories) {
-                            obj.subCategories.forEach((sub) => {
-                                formattedCategoryList.push(new Category(sub.categoryID, sub.categoryName, sub.categoryDescription, obj, []));
-                            });
-                        }
-                    });
-
-                    self.categories = formattedCategoryList;
+                .then(function (categories) {
+                    self.categories = categories;
                 })
                 .catch(function (error) {
                     const msg = _errorHandler.getMessage(error, "There was a problem loading the categories.");

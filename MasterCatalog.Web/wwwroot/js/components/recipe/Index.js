@@ -33,11 +33,11 @@ createApp({
             }
 
             _itemService.getById(self.itemId)
-                .then(function (response) {
-                    self.model = _itemService.mapResponseToModel(response.data);
+                .then(function (item) {
+                    self.model = item;
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error);
+                    const msg = _errorHandler.getMessage(error, "Could not load item.");
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {

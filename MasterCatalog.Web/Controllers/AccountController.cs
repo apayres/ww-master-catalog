@@ -1,6 +1,8 @@
-﻿using MasterCatalog.Web.Services;
+﻿using MasterCatalog.Web.Models.Account;
+using MasterCatalog.Web.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using System.Text.Json;
 
 namespace MasterCatalog.Web.Controllers
@@ -53,7 +55,20 @@ namespace MasterCatalog.Web.Controllers
         public IActionResult Index()
         {
             var user = HttpContext.User;
-            return View();
+            if (user == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            var model = new IndexViewModel()
+            {
+                FirstName = user.FindFirstValue(ClaimTypes.GivenName),
+                LastName = user.FindFirstValue(ClaimTypes.Surname),
+                RoleName = user.FindFirstValue(ClaimTypes.Role),
+                UserName = user.FindFirstValue(ClaimTypes.Name)
+            };
+
+            return View(model);
         }
                 
         [AllowAnonymous]

@@ -6,7 +6,10 @@ namespace MasterCatalog.Domain.Models
     {
         public int? CompanyID { get; set; }
 
+
         [Required(AllowEmptyStrings = false, ErrorMessage = "Company name is required")]
         public string CompanyName { get; set; }
+
+        public string CompanyCode { get; set; }
     }
 }

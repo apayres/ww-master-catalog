@@ -32,8 +32,8 @@ export default {
             }
 
             _itemService.get()
-                .then(function (response) {
-                    self.items = response.data;
+                .then(function (items) {
+                    self.items = items;
                 })
                 .catch(function (error) {
                     const msg = _errorHandler.getMessage(error, 'Could not load items');
@@ -79,8 +79,8 @@ export default {
             self.saving = true;
 
             _service.insert(obj)
-                .then(function (response) {
-                    obj.ingredientID = response.data.ingredientID;
+                .then(function (ingredient) {
+                    obj.ingredientID = ingredient.ingredientID;
 
                     self.saveCallback(obj);
                     self.dialog.hide();
@@ -98,7 +98,7 @@ export default {
             self.saving = true;
 
             _service.update(obj)
-                .then(function (response) {                    
+                .then(function (ingredient) {                    
                     self.dialog.hide();
                     self.saveCallback(obj);
                 })

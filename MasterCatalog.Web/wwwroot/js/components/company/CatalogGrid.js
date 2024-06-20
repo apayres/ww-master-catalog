@@ -39,8 +39,8 @@ export default {
             const self = this;
 
             _service.items(self.companyId)
-                .then(function (response) {
-                    self.catalogItems = response.data;
+                .then(function (items) {
+                    self.catalogItems = items;
                 })
                 .catch(function (error) {
                     const msg = _errorHandler.getMessage(error, 'Could not load catalog items');

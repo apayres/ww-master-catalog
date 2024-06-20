@@ -39,6 +39,11 @@ export default {
                     <input type="text" class="form-control" v-model="model.companyName" />
                     <span class="text-danger" v-if="model.companyNameError">{{model.companyNameError}}</span>
                 </div>
+                <div class="mb-2">
+                    <label class="form-label">Code</label>
+                    <input type="text" class="form-control" v-model="model.companyCode" />
+                    <span class="text-danger" v-if="model.companyCodeError">{{model.companyCodeError}}</span>
+                </div>
 
                 <div class="mt-4">
                     <button-primary

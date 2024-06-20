@@ -60,20 +60,22 @@ export default {
                     <td class="p-3">{{uom.unitOfMeasureName}}</td>
                     <td class="p-3">{{uom.unitOfMeasureDescription}}</td>
                     <td class="p-3 text-end" style="min-width: 150px">
-                        <button-icon icon="bi-pencil"                                        
-                                     tooltip="update unit of measure"
-                                     text="Edit"
-                                     classes="text-secondary"
-                                     :disabled="processing"
-                                     v-on:click-event="updateClick(uom)">
+                        <button-icon
+                            icon="bi-pencil"
+                            tooltip="update unit of measure"
+                            text="Edit"
+                            classes="text-secondary"
+                            :disabled="processing"
+                            v-on:click-event="updateClick(uom)">
                         </button-icon>
 
-                        <button-icon icon="bi-trash"
-                                     tooltip="delete unit of measure"
-                                     text="Delete"
-                                     :disabled="processing"
-                                     classes="text-danger ms-3"
-                                     v-on:click-event="deleteClick(uom.unitOfMeasureID)">
+                        <button-icon
+                            icon="bi-trash"
+                            tooltip="delete unit of measure"
+                            text="Delete"
+                            :disabled="processing"
+                            classes="text-danger ms-3"
+                            v-on:click-event="deleteClick(uom.unitOfMeasureID)">
                         </button-icon>
                     </td>
                 </tr>

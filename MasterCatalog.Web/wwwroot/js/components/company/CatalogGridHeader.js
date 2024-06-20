@@ -39,7 +39,7 @@ export default {
         <div class="row mb-3">
             <div class="col-4">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search catalog..." v-model="searchTerm" />
+                    <input v-on:keyup.enter="searchClick" type="text" class="form-control" placeholder="Search catalog..." v-model="searchTerm" />
                     <span class="input-group-text">
                         <button-icon
                             icon="bi-search"

@@ -1,9 +1,11 @@
 ﻿import { ItemImagesService } from '../../services/itemImagesService.js';
 import { Item } from '../../models/item.js';
+import { ErrorHandler } from '../../utilities/errorHandler.js';
 import { default as ImageManager } from './ImageManager.js';
 import { default as ButtonIcon } from '../Shared/Buttons/ButtonIcon.js';
 
 const _service = new ItemImagesService();
+const _errorHandler = new ErrorHandler();
 
 export default {
     data() {
@@ -30,15 +32,17 @@ export default {
             }
 
             _service.getItemImages(self.item.itemID)
-                .then(function (response) {
-                    self.images = response.data;
+                .then(function (images) {
+                    self.images = images;
+
                     if (self.images && self.images.length) {
                         self.primaryImage = self.images[0];
                         self.images.splice(0, 1);
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    const msg = _errorHandler.getMessage(error, "Could not load images.");
+                    self.messageCenter.error(msg);
                 })
                 .finally(function () {
                     self.loading = false;

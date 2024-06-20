@@ -1,23 +1,54 @@
 ﻿import { ApiUtility } from '../utilities/apiHelper.js';
+import { Category } from '../models/category.js';
 
-const _url = window.ApiBaseUrl + 'category';
-const repo = new ApiUtility();
+const _api = new ApiUtility('category');
 
 export class CategoryService {
 
-    insert(obj) {
-        return repo.insert(_url, obj);
+    async insert(obj) {
+        const response = await _api.insert(obj);
+        return this.mapToModel(response.data);
     }
 
-    update(obj) {
-        return repo.update(_url, obj);
+    async update(obj) {
+        const response = await _api.update(obj);
+        return this.mapToModel(response.data);
     }
 
-    delete(id) {
-        return repo.delete(_url, id);
+    async delete(id) {
+        return _api.delete(id);
     }
 
-    get() {
-        return repo.get(_url);
+    async get() {
+        const response = await _api.get();
+        const categories = response.data.map((obj) => {
+            return this.mapToModel(obj);
+        });
+
+        return categories;
+    }
+
+    mapToModel(obj) {
+        const category = new Category(
+            obj.categoryID,
+            obj.categoryName,
+            obj.categoryDescription
+        );
+
+        if (obj.parentCategory) {
+            category.parentCategory = new Category(
+                obj.parentCategory.categoryID,
+                obj.parentCategory.categoryName,
+                obj.parentCategory.categoryDescription
+            ); 
+        }
+
+        if (obj.subCategories) {
+            category.subCategories = obj.subCategories.map((sub) => {
+                return new Category(sub.categoryID, sub.categoryName, sub.categoryDescription, category, []);
+            });
+        }
+
+        return category;
     }
 }

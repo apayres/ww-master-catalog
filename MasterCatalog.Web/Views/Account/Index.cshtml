@@ -1,7 +1,33 @@
-﻿
+﻿@model MasterCatalog.Web.Models.Account.IndexViewModel;
+
 @{
     ViewData["Title"] = "Profile";
 }
 
-<h1>Index</h1>
+<div id="content">
+    <div class="row">
+        <h2 class="mb-4">Account Details</h2>
+        <div class="col-3">
+            <div class="mb-3">
+                <label class="form-label mb-2">User Name</label>
+                <input type="text" value="@Model.UserName" disabled class="form-control" />
+            </div>
 
+            <div class="mb-3">
+                <label class="form-label mb-2">First Name</label>
+                <input type="text" value="@Model.FirstName" disabled class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label mb-2">Last Name</label>
+                <input type="text" value="@Model.LastName" disabled class="form-control" />
+            </div>
+        </div>
+        <div class="col-3">
+            <div>
+                <label class="form-label mb-2">Role</label>
+                <input type="text" value="@Model.RoleName" disabled class="form-control" />
+            </div>
+        </div>
+    </div>
+</div>
