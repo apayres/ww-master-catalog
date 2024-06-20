@@ -46,8 +46,7 @@ createApp({
         }
     },
     mounted() {
-        const self = this;
-        self.itemId = document.getElementById('itemID').value;
-        self.loadItem();
+        this.itemId = document.getElementById('itemID').value;
+        this.loadItem();
     }
 }).mount('#content');

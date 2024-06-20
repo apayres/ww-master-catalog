@@ -50,8 +50,6 @@ export default {
                     self.failed = false;
                 })
                 .catch(function (error) {
-                    console.error(error);
-
                     self.failed = true;
                     self.success = false;
                 })
@@ -69,8 +67,6 @@ export default {
                     self.failed = false;
                 })
                 .catch(function (error) {
-                    console.error(error);
-
                     self.failed = true;
                     self.success = false;
                 })

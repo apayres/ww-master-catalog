@@ -29,6 +29,22 @@ createApp({
         MessageCenter
     },
     methods: {
+        loadUnitsOfMeasure() {
+            const self = this;
+            self.processing = true;
+
+            _service.get()
+                .then(function (uoms) {
+                    self.unitsOfMeasure = uoms;
+                })
+                .catch(function (error) {
+                    const msg = _errorHandler.getMessage(error, "Could not load Units of Measure.");
+                    self.messageCenter.error(msg);
+                })
+                .finally(function () {
+                    self.processing = false;
+                });
+        },
         addUnitOfMeasure(uom) {
             const self = this;
             self.processing = true;
@@ -54,7 +70,6 @@ createApp({
             _service.update(toRaw(uom))
                 .then(function (uom) {
                     const index = self.unitsOfMeasure.findIndex((x) => x.unitOfMeasureID == uom.unitOfMeasureID);
-
                     if (index > -1) {
                         self.unitsOfMeasure[index] = uom;
                     }
@@ -103,19 +118,7 @@ createApp({
         }
     },
     mounted() {
-        const self = this;
-        self.messageCenter = this.$refs.messageCenter;
-
-        _service.get()
-            .then(function (uoms) {
-                self.unitsOfMeasure = uoms;
-            })
-            .catch(function (error) {
-                const msg = _errorHandler.getMessage(error, "Could not load Units of Measure.");
-                self.messageCenter.error(msg);
-            })
-            .finally(function () {
-                self.processing = false;
-            });
+        this.messageCenter = this.$refs.messageCenter;
+        this.loadUnitsOfMeasure();        
     }
 }).mount('#content');
