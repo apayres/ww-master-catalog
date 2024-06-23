@@ -1,5 +1,5 @@
-﻿import { default as ButtonPrimary } from '../Shared/Buttons/ButtonPrimary.js';
-import { default as ButtonPrimaryOutlined } from '../Shared/Buttons/ButtonPrimaryOutlined.js';
+﻿import { ButtonPrimary, ButtonPrimaryOutlined } from '../shared/buttons/Index.js';
+import { TextBox, DropDownList } from '../shared/inputs/Index.js';
 import { Category } from '../../models/category.js';
 
 export default {
@@ -10,7 +10,9 @@ export default {
     },
     components: {
         ButtonPrimary,
-        ButtonPrimaryOutlined
+        ButtonPrimaryOutlined,
+        TextBox,
+        DropDownList
     },
     methods: {
         addClick() {
@@ -34,12 +36,9 @@ export default {
     computed: {
         categoryList() {
             const self = this;
-            let categories = [];
+            let categories = self.categories;
 
-            if (!self.model.categoryID) {
-                categories = self.categories;
-            }
-            else {
+            if (self.model.categoryID) {
                 categories = self.categories.filter((x) => x.categoryID !== self.model.categoryID);
             }
             
@@ -49,56 +48,64 @@ export default {
     template: `
         <div class="p-3">
             <h4 class="mb-3">Category</h4>
-            <form id="categoryForm" v-on:submit.prevent>
-                <div class="mb-2">
-                    <label class="form-label">Name</label>
-                    <input type="text" class="form-control" v-model="model.categoryName" />
-                    <span class="text-danger" v-if="model.categoryNameError">{{model.categoryNameError}}</span>
-                </div>
+            <div class="mb-2">
+                <text-box
+                    label="Name"
+                    tooltip="Category Name"
+                    v-model:value="model.categoryName"
+                    :error="model.categoryNameError"
+                    :disabled="processing">
+                </text-box>
+            </div>
 
-                <div class="mb-2">
-                    <label class="form-label">Description</label>
-                    <input type="text" class="form-control" v-model="model.categoryDescription" />
-                    <span class="text-danger" v-if="model.categoryDescriptionError">{{model.categoryDescriptionError}}</span>
-                </div>
+            <div class="mb-2">
+                <text-box
+                    label="Description"
+                    tooltip="Category Description"
+                    v-model:value="model.categoryDescription"
+                    :error="model.categoryDescriptionError"
+                    :disabled="processing">
+                </text-box>
+            </div>
 
-                <div class="mb-2">
-                    <label class="form-label">Parent</label>
-                    <select class="form-select" v-model="model.parentCategoryID" :disabled="categoryList.length === 0">
-                        <option :value="null">None</option>
-                        <option v-for:="option in categoryList" class="mt-2" :value="option.categoryID">
-                            {{option.categoryName}}
-                        </option>
-                    </select>
-                </div>
+            <div class="mb-2">                    
+                <drop-down-list
+                    label="Parent"
+                    text-binding="categoryName"
+                    value-binding="categoryID"
+                    tooltip="Parent Category"
+                    :options="categoryList"
+                    :disabled="categoryList.length === 0"
+                    v-model:value="model.parentCategoryID"
+                </drop-down-list>
+            </div>
 
-                <div class="mt-4">
-                    <button-primary
-                        text="Add"
-                        icon="bi-plus-circle"
-                        :disabled="processing"
-                        v-if="!model.categoryID"
-                        v-on:click-event="addClick">
-                    </button-primary>
+            <div class="mt-4">
+                <button-primary
+                    text="Add"
+                    icon="bi-plus-circle"
+                    classes="me-2"
+                    :disabled="processing"
+                    v-if="!model.categoryID"
+                    v-on:click-event="addClick">
+                </button-primary>
                                     
-                    <button-primary
-                        text="Save"
-                        icon="bi-floppy-fill"
-                        :disabled="processing"
-                        v-if="model.categoryID"
-                        v-on:click-event="updateClick">
-                    </button-primary>
+                <button-primary
+                    text="Save"
+                    icon="bi-floppy-fill"
+                    classes="me-2"
+                    :disabled="processing"
+                    v-if="model.categoryID"
+                    v-on:click-event="updateClick">
+                </button-primary>
 
-                    <span class="me-2"></span>
-
-                    <button-primary-outlined
-                        text="Cancel"
-                        icon="bi-ban"
-                        :disabled="processing"
-                        v-on:click="cancelClick">
-                    </button-primary-outlined>
-                </div>
-            </form>
+                <button-primary-outlined
+                    text="Cancel"
+                    icon="bi-ban"
+                    :disabled="processing"
+                    v-on:click="cancelClick">
+                </button-primary-outlined>
+            </div>
         </div>
     `
 }

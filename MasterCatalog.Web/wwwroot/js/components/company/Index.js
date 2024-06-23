@@ -2,10 +2,10 @@
 import { CompanyService } from '../../services/companyService.js';
 import { ErrorHandler } from '../../utilities/errorHandler.js';
 import { Company } from '../../models/company.js';
+import { ButtonPrimary } from '../Shared/Buttons/Index.js';
+import { MessageCenter } from '../shared/messageCenter/Index.js';
 import { default as CompanyForm } from './CompanyForm.js';
 import { default as CompanyGrid } from './CompanyGrid.js';
-import { default as ButtonPrimary } from '../Shared/Buttons/ButtonPrimary.js';
-import { default as MessageCenter } from '../shared/messageCenter/MessageCenter.js';
 
 const _service = new CompanyService();
 const _errorHandler = new ErrorHandler();
@@ -29,6 +29,21 @@ createApp({
         MessageCenter
     },
     methods: {
+        loadCompanies() {
+            const self = this;
+
+            _service.get()
+                .then(function (companies) {
+                    self.companies = companies;
+                })
+                .catch(function (error) {
+                    const msg = _errorHandler.getMessage(error);
+                    self.messageCenter.error(msg);
+                })
+                .finally(function () {
+                    self.processing = false;
+                });
+        },
         addCompany(company) {
             const self = this;
             self.processing = true;
@@ -39,7 +54,7 @@ createApp({
                     self.messageCenter.success('Company added successfully!');
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error, "Error inserting company.");
+                    const msg = _errorHandler.getMessage(error, "There was a problem inserting the company.");
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {
@@ -62,7 +77,7 @@ createApp({
                     self.messageCenter.success('Company updated successfully!');
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error, "Error updating company");
+                    const msg = _errorHandler.getMessage(error, "There was a problem updating the company");
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {
@@ -84,7 +99,7 @@ createApp({
                     self.messageCenter.success('Company deleted successfully!');
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error, "Error deleting company");
+                    const msg = _errorHandler.getMessage(error, "There was a problem deleting the company");
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {
@@ -103,19 +118,7 @@ createApp({
         }
     },
     mounted() {
-        const self = this;
-        self.messageCenter = this.$refs.messageCenter;
-
-        _service.get()
-            .then(function (companies) {
-                self.companies = companies;
-            })
-            .catch(function (error) {
-                const msg = _errorHandler.getMessage(error);
-                self.messageCenter.error(msg);
-            })
-            .finally(function () {
-                self.processing = false;
-            });
+        this.messageCenter = this.$refs.messageCenter;
+        this.loadCompanies();
     }
 }).mount('#content');

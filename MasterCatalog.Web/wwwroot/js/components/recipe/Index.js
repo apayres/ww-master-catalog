@@ -1,5 +1,5 @@
 ﻿import { createApp } from 'vue';
-import { default as MessageCenter } from '../Shared/MessageCenter/MessageCenter.js';
+import { MessageCenter } from '../Shared/MessageCenter/Index.js';
 import { default as IngredientGrid } from './IngredientGrid.js';
 import { Item } from '../../models/item.js';
 import { ItemService } from '../../services/itemService.js';
@@ -37,7 +37,7 @@ createApp({
                     self.model = item;
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error, "Could not load item.");
+                    const msg = _errorHandler.getMessage(error, "There was a problem loading the item.");
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {

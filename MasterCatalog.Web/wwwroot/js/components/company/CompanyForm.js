@@ -1,5 +1,4 @@
-﻿import { default as ButtonPrimary } from '../Shared/Buttons/ButtonPrimary.js';
-import { default as ButtonPrimaryOutlined } from '../Shared/Buttons/ButtonPrimaryOutlined.js';
+﻿import { ButtonPrimary, ButtonPrimaryOutlined } from '../shared/buttons/Index.js';
 import { Company } from '../../models/company.js';
 
 export default {
@@ -49,6 +48,7 @@ export default {
                     <button-primary
                         text="Add"
                         icon="bi-plus-circle"
+                        classes="me-2"
                         :disabled="processing"
                         v-if="!model.companyID"
                         v-on:click-event="addClick">
@@ -57,12 +57,11 @@ export default {
                     <button-primary
                         text="Save"
                         icon="bi-floppy-fill"
+                        classes="me-2"
                         :disabled="processing"
                         v-if="model.companyID"
                         v-on:click-event="updateClick">
                     </button-primary>
-
-                    <span class="me-2"></span>
 
                     <button-primary-outlined
                         text="Cancel"

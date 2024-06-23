@@ -11894,3 +11894,7 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+.modal-header {
+  background-color: #4800ff;
+  color: white;
+}

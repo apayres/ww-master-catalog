@@ -1,8 +1,8 @@
-﻿import { default as ButtonIcon } from '../Shared/Buttons/ButtonIcon.js';
-import { default as MessageCenter } from '../Shared/MessageCenter/MessageCenter.js';
+﻿import { ButtonIcon } from '../shared/buttons/Index.js';
+import { MessageCenter } from '../Shared/MessageCenter/Index.js';
 import { default as ItemGridHeader } from './ItemGridHeader.js';
-import { default as TablePlaceholder } from '../Shared/Placeholders/TablePlaceholder.js';
-import { default as Pagination } from '../shared/pagination/Pagination.js';
+import { TablePlaceholder } from '../Shared/Placeholders/Index.js';
+import { Pagination } from '../shared/pagination/Index.js';
 import { ItemService } from '../../services/itemService.js';
 import { ErrorHandler } from '../../utilities/errorHandler.js';
 
@@ -34,7 +34,7 @@ export default {
     },
     methods: {
         addItem() {
-            window.location.href = "/Items/Index";
+            window.location.href = "/Items/Item";
         },
         searchItems(term) {
             this.searchTerm = term;
@@ -48,7 +48,7 @@ export default {
                     self.formatPagination(self.items);
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error, 'Could not load items');
+                    const msg = _errorHandler.getMessage(error, 'There was a problem loading the items.');
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {
@@ -67,7 +67,7 @@ export default {
             }
         },
         viewClick(id) {
-            window.location.href = '/Items/Index/' + id;
+            window.location.href = '/Items/Item/' + id;
             return false;
         },
         paginationClick(pageNumber) {

@@ -1,6 +1,4 @@
-﻿import { default as ButtonPrimary } from '../Shared/Buttons/ButtonPrimary.js';
-import { default as ButtonPrimaryOutlined } from '../Shared/Buttons/ButtonPrimaryOutlined.js';
-import { default as ButtonIcon } from '../Shared/Buttons/ButtonIcon.js';
+﻿import { ButtonPrimary, ButtonPrimaryOutlined, ButtonIcon } from '../shared/buttons/Index.js';
 import { ItemAttribute } from '../../models/itemAttribute.js';
 import { ItemAttributeOption } from '../../models/itemAttributeOption.js';
 

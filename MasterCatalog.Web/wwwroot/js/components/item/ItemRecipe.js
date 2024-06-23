@@ -1,7 +1,7 @@
 ﻿import { IngredientService } from '../../services/ingredientService.js';
 import { ErrorHandler } from '../../utilities/errorHandler.js';
-import { default as MessageCenter } from '../Shared/MessageCenter/MessageCenter.js';
-import { default as ButtonIcon } from '../Shared/Buttons/ButtonIcon.js';
+import { MessageCenter } from '../Shared/MessageCenter/Index.js';
+import { ButtonIcon } from '../shared/buttons/Index.js';
 
 const _service = new IngredientService();
 const _errorHandler = new ErrorHandler();
@@ -36,7 +36,7 @@ export default {
                     self.ingredients = ingredients;
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error, 'Could not load ingredients');
+                    const msg = _errorHandler.getMessage(error, 'There was a problem loading the ingredients');
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {

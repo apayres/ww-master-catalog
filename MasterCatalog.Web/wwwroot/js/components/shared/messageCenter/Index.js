@@ -1,8 +1,9 @@
 ﻿import { default as SuccessMessage } from './MessageSuccess.js'
 import { default as ErrorMessage } from './MessageDanger.js'
+import { default as InformationMessage } from './MessageInformation.js';
 import { MessageType } from '/js/enums/messageType.js'
 
-export default {
+export const MessageCenter = {
     data() {
         return {
             text: '',
@@ -11,7 +12,8 @@ export default {
     },    
     components: {
         SuccessMessage,
-        ErrorMessage
+        ErrorMessage,
+        InformationMessage
     },
     methods: {
         success(prompt) {
@@ -21,6 +23,10 @@ export default {
         error(prompt) {
             this.text = prompt;
             this.type = MessageType.Error;
+        },
+        information(prompt) {
+            this.text = prompt;
+            this.type = MessageType.Information;
         }
     },
     computed: {
@@ -29,10 +35,14 @@ export default {
         },
         isError() {
             return this.type && this.type === MessageType.Error;
+        },
+        isInformation() {
+            return this.type && this.type === MessageType.Information;
         }
     },
     template: `
        <success-message :text="text" v-if="isSuccess"></success-message>
        <error-message :text="text" v-if="isError"></error-message>
+       <information-message :text="text" v-if="isInformation"></information-message>
     `
 }

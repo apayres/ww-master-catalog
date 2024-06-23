@@ -1,4 +1,4 @@
-﻿import { default as ButtonIcon } from '../Shared/Buttons/ButtonIcon.js';
+﻿import { ButtonIcon } from '../shared/buttons/Index.js';
 import { default as Anchor } from '../Shared/Links/Anchor.js';
 
 export default {

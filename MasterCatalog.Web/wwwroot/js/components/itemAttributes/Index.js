@@ -2,8 +2,8 @@
 import { ItemAttributeService } from '../../services/itemAttributeService.js';
 import { ErrorHandler } from '../../utilities/errorHandler.js';
 import { ItemAttribute } from '../../models/itemAttribute.js';
-import { default as ButtonPrimary } from '../shared/buttons/ButtonPrimary.js';
-import { default as MessageCenter } from '../Shared/messageCenter/MessageCenter.js';
+import { ButtonPrimary } from '../shared/buttons/Index.js';
+import { MessageCenter } from '../Shared/messageCenter/Index.js';
 import { default as AttributeGrid } from './AttributeGrid.js';
 import { default as AttributeForm } from './AttributeForm.js';
 
@@ -40,7 +40,7 @@ createApp({
                     self.messageCenter.success('Item Attribute added successfully!');
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error);
+                    const msg = _errorHandler.getMessage(error, "There was a problem inserting the attribute.");
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {
@@ -64,7 +64,7 @@ createApp({
                     self.messageCenter.success('Item Attribute updated successfully!');
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error);
+                    const msg = _errorHandler.getMessage(error, "There was a problem updating the attribute.");
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {
@@ -86,7 +86,7 @@ createApp({
                     self.messageCenter.success('Item Attribute deleted successfully!');
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error);
+                    const msg = _errorHandler.getMessage(error, "There was a problem deleting the attribute.");
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {

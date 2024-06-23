@@ -1,12 +1,11 @@
 ﻿import { CompanyCatalogService } from '../../services/companyCatalogService.js';
 import { ErrorHandler } from '../../utilities/errorHandler.js';
 import { CatalogItem } from '../../models/catalogItem.js';
-
-import { default as MessageCenter } from '../shared/MessageCenter/MessageCenter.js';
-import { default as ButtonIcon } from '../shared/Buttons/ButtonIcon.js';
-import { default as TablePlaceholder } from '../shared/Placeholders/TablePlaceholder.js';
-import { default as DialogConfirmation } from '../shared/Dialogs/DialogConfirmation.js'
-import { default as ItemSelector } from './ItemSelector.js';
+import { MessageCenter } from '../shared/messageCenter/Index.js';
+import { ButtonIcon } from '../shared/buttons/Index.js';
+import { TablePlaceholder } from '../shared/Placeholders/Index.js';
+import { DialogConfirmation } from '../shared/Dialogs/Index.js'
+import { default as ItemSelector } from '../items/ItemSelector.js';
 import { default as CatalogGridHeader } from './CatalogGridHeader.js';
 
 const _service = new CompanyCatalogService();
@@ -43,7 +42,7 @@ export default {
                     self.catalogItems = items;
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error, 'Could not load catalog items');
+                    const msg = _errorHandler.getMessage(error, 'There was a problem loading catalog items');
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {
@@ -84,7 +83,7 @@ export default {
                     }
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error, 'Item could not be added to catalog.');
+                    const msg = _errorHandler.getMessage(error, 'There was a problem adding the item to the catalog.');
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {
@@ -109,7 +108,7 @@ export default {
                     self.messageCenter.success('Catalog Item deleted successfully!');
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error, 'Could not delete catalog item.');
+                    const msg = _errorHandler.getMessage(error, 'There was a problem deleting the catalog item.');
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {
@@ -167,6 +166,7 @@ export default {
     template: `
     <div>
         <message-center ref="messageCenter"></message-center>
+
         <catalog-grid-header
             v-on:search-click="searchItems"
             v-on:add-click="showItemSelector"

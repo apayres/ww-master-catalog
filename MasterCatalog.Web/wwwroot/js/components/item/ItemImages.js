@@ -1,8 +1,8 @@
 ﻿import { ItemImagesService } from '../../services/itemImagesService.js';
 import { Item } from '../../models/item.js';
 import { ErrorHandler } from '../../utilities/errorHandler.js';
-import { default as ImageManager } from './ImageManager.js';
-import { default as ButtonIcon } from '../Shared/Buttons/ButtonIcon.js';
+import { default as ImageManager } from './ItemImageManager.js';
+import { ButtonIcon } from '../shared/buttons/Index.js';
 
 const _service = new ItemImagesService();
 const _errorHandler = new ErrorHandler();
@@ -41,7 +41,7 @@ export default {
                     }
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error, "Could not load images.");
+                    const msg = _errorHandler.getMessage(error, "There was a problem loading images.");
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {

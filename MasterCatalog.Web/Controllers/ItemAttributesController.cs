@@ -2,7 +2,7 @@
 
 namespace MasterCatalog.Web.Controllers
 {
-    public class ItemAttributeController : Controller
+    public class ItemAttributesController : Controller
     {
         public IActionResult Index()
         {

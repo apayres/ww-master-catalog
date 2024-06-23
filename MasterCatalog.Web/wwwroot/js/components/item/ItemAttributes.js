@@ -1,8 +1,6 @@
-﻿import { default as ButtonPrimary } from '../Shared/Buttons/ButtonPrimary.js';
-import { default as ButtonPrimaryOutlined } from '../Shared/Buttons/ButtonPrimaryOutlined.js';
-import { default as ButtonIcon } from '../Shared/Buttons/ButtonIcon.js';
-import { default as FormFieldPlaceholder } from '../Shared/Placeholders/FormFieldPlaceholder.js';
-import { default as MessageCenter } from '../Shared/MessageCenter/MessageCenter.js';
+﻿import { ButtonPrimary, ButtonPrimaryOutlined, ButtonIcon } from '../shared/buttons/Index.js';
+import { FormFieldPlaceholder } from '../Shared/Placeholders/Index.js';
+import { MessageCenter } from '../Shared/MessageCenter/Index.js';
 import { ItemAttributeService } from '../../services/itemAttributeService.js';
 import { ItemAttributeValueService } from '../../services/itemAttributeValueService.js';
 import { ItemAttributeValue } from '../../models/itemAttributeValue.js';
@@ -54,7 +52,7 @@ export default {
 
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error, 'Problem loading attributes!');
+                    const msg = _errorHandler.getMessage(error, 'There was a problem loading attributes!');
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {
@@ -71,7 +69,7 @@ export default {
 
             _attributeValueService.delete(attribute.attributeValue.itemAttributeValueID)
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error, 'Problem deleting image!');
+                    const msg = _errorHandler.getMessage(error, 'There was a problem deleting image!');
                     self.messageCenter.error(msg);
                 })
         },

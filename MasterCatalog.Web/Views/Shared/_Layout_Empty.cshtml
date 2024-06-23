@@ -12,10 +12,12 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 </head>
 <body>
-        <div class="container">
-            <main role="main">
-                @RenderBody()
-            </main>
+    @await Html.PartialAsync("_Header")
+
+        <div class="container mt-5">
+            <main role="main" class="p-3 pb-5 ">
+            @RenderBody()
+        </main>
         </div>
 
     @await RenderSectionAsync("Scripts", required: false)

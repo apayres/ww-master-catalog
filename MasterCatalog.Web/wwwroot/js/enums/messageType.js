@@ -8,7 +8,7 @@
     }
 
     static get Information() {
-        return 'info';
+        return 'information';
     }
 
     static get Error() {

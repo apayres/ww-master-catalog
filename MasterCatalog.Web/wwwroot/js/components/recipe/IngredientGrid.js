@@ -1,7 +1,7 @@
-﻿import { default as ButtonIcon } from '../Shared/Buttons/ButtonIcon.js';
-import { default as MessageCenter } from '../Shared/MessageCenter/MessageCenter.js';
-import { default as TablePlaceholder } from '../Shared/Placeholders/TablePlaceholder.js';
-import { default as DialogConfirmation } from '../Shared/Dialogs/DialogConfirmation.js'
+﻿import { ButtonIcon } from '../shared/buttons/Index.js';
+import {  MessageCenter } from '../Shared/MessageCenter/Index.js';
+import { TablePlaceholder } from '../Shared/Placeholders/Index.js';
+import { DialogConfirmation } from '../Shared/Dialogs/Index.js'
 import { default as IngredientForm } from './IngredientForm.js';
 
 import { Ingredient } from '../../models/ingredient.js';
@@ -53,7 +53,7 @@ export default {
                 });
         },
         backClick() {
-            window.location.href = "/items/index/" + this.item.itemID;
+            window.location.href = "/items/item/" + this.item.itemID;
             return false;
         },
         addClick() {
@@ -107,10 +107,6 @@ export default {
                     return false;
                 }
             );
-        },
-        backClick(id) {
-            window.location.href = '/Items/Index/' + this.item.itemID;
-            return false;
         }
     },
     watch: {

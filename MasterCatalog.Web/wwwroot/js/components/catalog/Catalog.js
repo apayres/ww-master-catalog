@@ -1,8 +1,7 @@
 ﻿import { createApp } from 'vue';
+import { MessageCenter } from '../shared/messageCenter/Index.js';
 import { default as CatalogGrid } from './CatalogGrid.js';
 import { default as PriceUpdateForm } from './PriceUpdateForm.js'
-import { default as MessageCenter } from '../shared/messageCenter/MessageCenter.js';
-
 
 createApp({
     messageCenter: null,

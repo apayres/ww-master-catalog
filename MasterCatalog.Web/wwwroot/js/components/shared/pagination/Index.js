@@ -1,4 +1,4 @@
-﻿export default {
+﻿export const Pagination = {
     props: ['pageCount', 'currentPage'],
     methods: {
         clickEvent(num) {

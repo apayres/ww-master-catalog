@@ -33,6 +33,11 @@ app.UseStatusCodePages(context =>
         response.Redirect("/Error/NotAuthorized");
     }
 
+    //if(response.StatusCode == (int)HttpStatusCode.NotFound)
+    //{
+    //    response.Redirect("/Error/NotFound");
+    //}
+
     return Task.CompletedTask;
 });
 

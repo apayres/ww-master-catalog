@@ -1,7 +1,7 @@
 ﻿import { ItemAttribute } from '../../models/ItemAttribute.js';
 import { ItemAttributeValueService } from '../../services/itemAttributeValueService.js';
 import { ItemAttributeValue } from '../../models/itemAttributeValue.js';
-import { default as SavingStatus } from '../Shared/Placeholders/FieldSavingStatus.js';
+import { FieldSavingStatus as SavingStatus } from '../Shared/Placeholders/Index.js';
 
 const _service = new ItemAttributeValueService();
 

@@ -5,7 +5,7 @@ namespace MasterCatalog.Web.Controllers
 {
     public class ItemsController : Controller
     {
-        public IActionResult Index(int? id)
+        public IActionResult Item(int? id)
         {
             var model = new IndexViewModel()
             {
@@ -15,7 +15,7 @@ namespace MasterCatalog.Web.Controllers
             return View(model);
         }
 
-        public IActionResult List(string? searchTerm)
+        public IActionResult Index(string? searchTerm)
         {
             var model = new ListViewModel()
             {

@@ -22,7 +22,7 @@ namespace MasterCatalog.Web.Controllers
         {
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("List", "Items");
+                return RedirectToAction("Index", "Items");
             }
 
             return View();
@@ -49,7 +49,7 @@ namespace MasterCatalog.Web.Controllers
                 return View();
             }
 
-            return RedirectToAction("List", "Items");
+            return RedirectToAction("Index", "Items");
         }
 
         public IActionResult Index()

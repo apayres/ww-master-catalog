@@ -4,8 +4,8 @@ import { ErrorHandler } from '../../utilities/errorHandler.js';
 import { UnitOfMeasure } from '../../models/unitOfMeasure.js';
 import { default as UnitOfMeasureForm } from './UnitOfMeasureForm.js';
 import { default as UnitOfMeasureGrid } from './UnitOfMeasureGrid.js';
-import { default as ButtonPrimary } from '../Shared/Buttons/ButtonPrimary.js';
-import { default as MessageCenter } from '../Shared/MessageCenter/MessageCenter.js';
+import { ButtonPrimary } from '../shared/buttons/Index.js';
+import { MessageCenter } from '../Shared/MessageCenter/Index.js';
 
 const _service = new UnitOfMeasureService();
 const _errorHandler = new ErrorHandler();

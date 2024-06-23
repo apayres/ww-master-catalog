@@ -1,9 +1,7 @@
-﻿import { default as ButtonPrimary } from '../Shared/Buttons/ButtonPrimary.js';
-import { default as ButtonPrimaryOutlined } from '../Shared/Buttons/ButtonPrimaryOutlined.js';
-import { default as ButtonIcon } from '../Shared/Buttons/ButtonIcon.js';
-import { default as MessageCenter } from '../Shared/MessageCenter/MessageCenter.js';
-import { default as CompanySelector } from './CompanySelectorjs.js';
-import { default as DialogConfirmation } from '../Shared/Dialogs/DialogConfirmation.js'
+﻿import { ButtonPrimary, ButtonPrimaryOutlined, ButtonIcon } from '../shared/buttons/Index.js';
+import { MessageCenter } from '../Shared/MessageCenter/Index.js';
+import { default as CompanySelector } from '../company/CompanySelector.js';
+import { DialogConfirmation } from '../Shared/Dialogs/Index.js'
 
 import { ItemService } from '../../services/itemService.js';
 import { CategoryService } from '../../services/categoryService.js';
@@ -81,7 +79,7 @@ export default {
                     self.messageCenter.success('Item added successfully!');
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error, "Could not add item.");
+                    const msg = _errorHandler.getMessage(error, "There was a problem inserting the item.");
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {
@@ -102,7 +100,7 @@ export default {
                     self.messageCenter.success('Item updated successfully!');
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error, "Could not update item.");
+                    const msg = _errorHandler.getMessage(error, "There was a problem updating the item.");
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {
@@ -143,7 +141,7 @@ export default {
             );
         },
         cancelClick() {
-            window.location.href = '/Items/List';
+            window.location.href = '/Items/Index';
         },
         showCompanySelector() {
             const self = this;

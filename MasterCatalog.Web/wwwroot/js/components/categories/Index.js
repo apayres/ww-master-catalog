@@ -2,11 +2,10 @@
 import { CategoryService } from '../../services/categoryService.js';
 import { ErrorHandler } from '../../utilities/errorHandler.js';
 import { Category } from '../../models/category.js';
-
+import { ButtonPrimary } from '../shared/buttons/Index.js';
+import { MessageCenter } from '../shared/messageCenter/Index.js';
 import { default as CategoryForm } from './CategoryForm.js';
 import { default as CategoryGrid } from './CategoryGrid.js';
-import { default as ButtonPrimary } from '../Shared/Buttons/ButtonPrimary.js';
-import { default as MessageCenter } from '../shared/messageCenter/MessageCenter.js';
 
 const _service = new CategoryService();
 const _errorHandler = new ErrorHandler();

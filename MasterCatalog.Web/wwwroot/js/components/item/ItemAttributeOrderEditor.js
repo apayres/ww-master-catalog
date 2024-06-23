@@ -1,6 +1,4 @@
-﻿import { default as ButtonPrimary } from '../Shared/Buttons/ButtonPrimary.js';
-import { default as ButtonPrimaryOutlined } from '../Shared/Buttons/ButtonPrimaryOutlined.js';
-import { default as ButtonIcon } from '../Shared/Buttons/ButtonIcon.js';
+﻿import { ButtonPrimary, ButtonPrimaryOutlined, ButtonIcon } from '../shared/buttons/Index.js';
 
 export default {
     dialog: null,
@@ -38,7 +36,7 @@ export default {
             this.orderedAttributes.splice(index, 1);
             this.orderedAttributes.splice(index + 1, 0, attribute);
         },
-        okayClick() {
+        saveClick() {
             const self = this;
 
             for (let i = 0; i < self.orderedAttributes.length; i++) {
@@ -97,8 +95,18 @@ export default {
                         </ul>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" v-on:click="okayClick" class="btn btn-primary">Save</button>
-                        <button type="button" v-on:click="cancelClick" class="btn btn-secondary">Cancel</button>
+                        <button-primary
+                            text="Save"
+                            icon="bi-floppy-fill"
+                            classes="me-2"
+                            v-on:click-event="saveClick">
+                        </button-primary>
+
+                        <button-primary-outlined
+                            text="Cancel"
+                            icon="bi-ban"
+                            v-on:click="cancelClick">
+                        </button-primary-outlined>
                     </div>
                 </div>
             </div>

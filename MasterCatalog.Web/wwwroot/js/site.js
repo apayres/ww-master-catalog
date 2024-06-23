@@ -4,6 +4,6 @@
         return false;
     }
 
-    window.location.href = "/Items/List?searchTerm=" + searchTerm;
+    window.location.href = "/Items/Index?searchTerm=" + searchTerm;
     return false;
 }

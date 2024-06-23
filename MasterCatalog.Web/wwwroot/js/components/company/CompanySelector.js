@@ -2,9 +2,8 @@
 import { CompanyService } from '../../services/companyService.js';
 import { ErrorHandler } from '../../utilities/errorHandler.js';
 import { CatalogItem } from '../../models/catalogItem.js';
-import { default as MessageCenter } from '../Shared/MessageCenter/MessageCenter.js';
-import { default as ButtonPrimary } from '../Shared/Buttons/ButtonPrimary.js';
-import { default as ButtonPrimaryOutlined } from '../Shared/Buttons/ButtonPrimaryOutlined.js';
+import { MessageCenter } from '../Shared/MessageCenter/Index.js';
+import { ButtonPrimary, ButtonPrimaryOutlined } from '../shared/buttons/Index.js';
 
 const _companyService = new CompanyService();
 const _catalogService = new CompanyCatalogService();
@@ -93,7 +92,7 @@ export default {
                     self.dialog.hide();
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error);
+                    const msg = _errorHandler.getMessage(error, "There was a problem addint to the company.");
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {
@@ -149,8 +148,18 @@ export default {
                         <span class="text-danger" v-if="itemPriceError">{{ itemPriceError }}</span>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" v-on:click="saveClick" class="btn btn-primary">Save</button>
-                        <button type="button" v-on:click="cancelClick" class="btn btn-secondary">Cancel</button>
+                        <button-primary
+                            text="Save"
+                            icon="bi-floppy-fill"
+                            classes="me-2"
+                            v-on:click-event="saveClick">
+                        </button-primary>
+
+                        <button-primary-outlined
+                            text="Cancel"
+                            icon="bi-ban"
+                            v-on:click="cancelClick">
+                        </button-primary-outlined>
                     </div>
                 </div>
             </div>

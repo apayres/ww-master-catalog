@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MasterCatalog.Web.Controllers
 {
-    public class CompanyController : Controller
+    public class CompaniesController : Controller
     {
         public IActionResult Index()
         {

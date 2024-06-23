@@ -1,10 +1,8 @@
 ﻿import { toRaw } from 'vue';
 import { ErrorHandler } from '../../utilities/errorHandler.js';
 import { ItemImagesService } from '../../services/itemImagesService.js';
-import { default as MessageCenter } from '../Shared/MessageCenter/MessageCenter.js';
-import { default as ButtonPrimary } from '../Shared/Buttons/ButtonPrimary.js';
-import { default as ButtonPrimaryOutlined } from '../Shared/Buttons/ButtonPrimaryOutlined.js';
-import { default as ButtonIcon } from '../Shared/Buttons/ButtonIcon.js';
+import { MessageCenter } from '../Shared/MessageCenter/Index.js';
+import { ButtonPrimary, ButtonPrimaryOutlined, ButtonIcon } from '../shared/buttons/Index.js';
 
 const _errorHandler = new ErrorHandler();
 const _service = new ItemImagesService();
@@ -60,7 +58,7 @@ export default {
                     self.messageCenter.success('Image uploaded successfully!');
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error, 'Problem uploading image!');
+                    const msg = _errorHandler.getMessage(error, 'There was a problem uploading image!');
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {
@@ -188,13 +186,21 @@ export default {
                                 <label for="formFile" class="form-label">Select an image to upload</label>
                                 <input class="form-control" type="file" id="formFile">
                                 <div class="text-end mt-2">
-                                    <button type="button" v-on:click="uploadClick" class="btn btn-primary">Upload</button>
+                                    <button-primary
+                                        text="Upload"
+                                        icon="bi-upload"
+                                        classes="me-2"
+                                        v-on:click-event="uploadClick">
+                                    </button-primary>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" v-on:click="cancelClick" class="btn btn-secondary">Close</button>
+                    <div class="modal-footer">                        
+                        <button-primary-outlined
+                            text="Close"
+                            v-on:click="cancelClick">
+                        </button-primary-outlined>
                     </div>
                 </div>
             </div>

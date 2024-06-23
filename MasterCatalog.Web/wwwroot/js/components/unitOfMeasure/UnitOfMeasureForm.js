@@ -1,5 +1,4 @@
-import { default as ButtonPrimary } from '../Shared/Buttons/ButtonPrimary.js';
-import { default as ButtonPrimaryOutlined } from '../Shared/Buttons/ButtonPrimaryOutlined.js';
+import { ButtonPrimary, ButtonPrimaryOutlined } from '../shared/buttons/Index.js';
 import { UnitOfMeasure } from '../../models/unitOfMeasure.js';
 
 export default {

@@ -1,6 +1,6 @@
-import { default as ButtonIcon } from '../Shared/Buttons/ButtonIcon.js';
-import { default as TablePlaceholder } from '../Shared/Placeholders/TablePlaceholder.js';
-import { default as DialogConfirmation } from '../Shared/Dialogs/DialogConfirmation.js'
+import { ButtonIcon } from '../shared/buttons/Index.js';
+import { TablePlaceholder } from '../Shared/Placeholders/Index.js';
+import { DialogConfirmation } from '../Shared/Dialogs/Index.js'
 
 export default {
     props: {

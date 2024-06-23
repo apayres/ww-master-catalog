@@ -1,8 +1,9 @@
 ﻿import { Ingredient } from '../../models/ingredient.js';
-import { default as MessageCenter } from '../Shared/MessageCenter/MessageCenter.js';
+import { MessageCenter } from '../Shared/MessageCenter/Index.js';
 import { IngredientService } from '../../services/ingredientService.js';
 import { ItemService } from '../../services/itemService.js';
 import { ErrorHandler } from '../../utilities/errorHandler.js';
+import { ButtonPrimary, ButtonPrimaryOutlined } from '../shared/buttons/Index.js';
 
 const _service = new IngredientService();
 const _itemService = new ItemService();
@@ -21,6 +22,8 @@ export default {
         }
     },
     components: {
+        ButtonPrimary,
+        ButtonPrimaryOutlined,
         MessageCenter
     },
     methods: {
@@ -147,8 +150,18 @@ export default {
                         <span class="text-danger" v-if="ingredient.ratioError">{{ ingredient.ratioError }}</span>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" :disabled="saving" v-on:click="saveClick" class="btn btn-primary">Save</button>
-                        <button type="button" :disabled="saving" v-on:click="cancelClick" class="btn btn-secondary">Cancel</button>
+                        <button-primary
+                            text="Save"
+                            icon="bi-floppy-fill"
+                            classes="me-2"
+                            v-on:click-event="saveClick">
+                        </button-primary>
+
+                        <button-primary-outlined
+                            text="Cancel"
+                            icon="bi-ban"
+                            v-on:click="cancelClick">
+                        </button-primary-outlined>
                     </div>
                 </div>
             </div>

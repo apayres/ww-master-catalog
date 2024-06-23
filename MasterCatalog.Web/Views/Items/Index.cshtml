@@ -1,7 +1,7 @@
-﻿@model MasterCatalog.Web.Models.Items.IndexViewModel
+﻿@model MasterCatalog.Web.Models.Items.ListViewModel
 
 @{
-    ViewData["Title"] = "Item";
+    ViewData["Title"] = "Items";
 }
 
 @section Scripts {
@@ -10,19 +10,8 @@
 
 <div id="content">
     <div class="row">
-        <message-center ref="messageCenter"></message-center>
-
-        <div class="col-9">
-            <item-details :item="model"
-                          :loading="loading">
-            </item-details>
-        </div>
-        <div class="col-3">
-            <item-images ref="itemImages"></item-images>
-            <item-attributes ref="itemAttributes"></item-attributes>
-            <item-recipe ref="itemRecipe"></item-recipe>
+        <div class="col-12 mt-2">
+            <item-grid default-search-term="@Model.SearchTerm"></item-grid>
         </div>
     </div>
 </div>
-
-<input type="hidden" id="itemID" value="@Model.ItemID" />

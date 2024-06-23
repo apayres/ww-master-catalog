@@ -1,8 +1,8 @@
 ﻿import { ItemService } from '../../services/itemService.js';
 import { ErrorHandler } from '../../utilities/errorHandler.js';
-import { default as ButtonIcon } from '../Shared/Buttons/ButtonIcon.js';
-import { default as MessageCenter } from '../Shared/MessageCenter/MessageCenter.js';
-import { default as Pagination } from '../shared/pagination/Pagination.js';
+import { ButtonPrimary, ButtonPrimaryOutlined, ButtonIcon } from '../shared/buttons/Index.js';
+import { MessageCenter } from '../Shared/MessageCenter/Index.js';
+import { Pagination } from '../shared/pagination/Index.js';
 
 
 const _service = new ItemService();
@@ -28,6 +28,8 @@ export default {
         catalogItems: Array
     },
     components: {
+        ButtonPrimary,
+        ButtonPrimaryOutlined,
         ButtonIcon,
         MessageCenter,
         Pagination
@@ -62,11 +64,11 @@ export default {
             this.addCallback = callback;
         },
         searchClick() {
-            
+
         },
         filterItems(items) {
             const catalogedItems = this.catalogItems;
-            
+
             if (!catalogedItems) {
                 this.selectorItems = items;
                 return true;
@@ -167,8 +169,18 @@ export default {
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" v-on:click="addClick" class="btn btn-primary">Add</button>
-                        <button type="button" v-on:click="cancelClick" class="btn btn-secondary">Cancel</button>
+                        <button-primary
+                            text="Add"
+                            icon="bi-floppy-fill"
+                            classes="me-2"
+                            v-on:click-event="addClick">
+                        </button-primary>
+
+                        <button-primary-outlined
+                            text="Cancel"
+                            icon="bi-ban"
+                            v-on:click="cancelClick">
+                        </button-primary-outlined>
                     </div>
                 </div>
             </div>

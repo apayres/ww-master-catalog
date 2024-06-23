@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MasterCatalog.Web.Controllers
 {
-    public class UnitOfMeasureController : Controller
+    public class UnitsOfMeasureController : Controller
     {
         public IActionResult Index()
         {

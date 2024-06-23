@@ -6,19 +6,19 @@
 <div id="sideMenu" class="p-3 pt-0">
     <ul class="list-unstyled">
         <li class="p-2 ps-3 @(activePage.StartsWith("items") ? "link-active" : string.Empty)">
-            <a class="link-dark link-opacity-75-hover link-offset-2 link-underline link-underline-opacity-0" asp-controller="Items" asp-action="List">Items</a>
+            <a class="link-dark link-opacity-75-hover link-offset-2 link-underline link-underline-opacity-0" asp-controller="Items" asp-action="Index">Items</a>
         </li>
         <li class="p-2 ps-3 @(activePage == "itemattribute/index" ? "link-active" : string.Empty)">
-            <a class="link-dark link-opacity-75-hover link-offset-2 link-underline link-underline-opacity-0" asp-controller="ItemAttribute" asp-action="Index">Attributes</a>
+            <a class="link-dark link-opacity-75-hover link-offset-2 link-underline link-underline-opacity-0" asp-controller="ItemAttributes" asp-action="Index">Attributes</a>
         </li>
         <li class="p-2 ps-3 @(activePage == "categories/index" ? "link-active" : string.Empty)">
             <a class="link-dark link-opacity-75-hover link-offset-2 link-underline link-underline-opacity-0" asp-controller="Categories" asp-action="Index">Categories</a>
         </li>
         <li class="p-2 ps-3 @(activePage == "unitofmeasure/index" ? "link-active" : string.Empty)">
-            <a class="link-dark link-opacity-75-hover link-offset-2 link-underline link-underline-opacity-0" asp-controller="UnitOfMeasure" asp-action="Index">Units of Measure</a>
+            <a class="link-dark link-opacity-75-hover link-offset-2 link-underline link-underline-opacity-0" asp-controller="UnitsOfMeasure" asp-action="Index">Units of Measure</a>
         </li>
         <li class="p-2 ps-3 @(activePage.StartsWith("company") ? "link-active" : string.Empty)">
-            <a class="link-dark link-opacity-75-hover link-offset-2 link-underline link-underline-opacity-0" asp-controller="Company" asp-action="Index">Companies</a>
+            <a class="link-dark link-opacity-75-hover link-offset-2 link-underline link-underline-opacity-0" asp-controller="Companies" asp-action="Index">Companies</a>
         </li>
     </ul>
 </div>

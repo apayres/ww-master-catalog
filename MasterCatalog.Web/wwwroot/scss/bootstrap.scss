@@ -8,3 +8,10 @@ $primary: #4800ff;
 // BOOTSTRAP FOUNDATION ///
 ///////////////////////////
 @import "../lib/bootstrap/scss/bootstrap.scss";
+
+// BOOTSTRAP OVERRIDES ////
+///////////////////////////
+.modal-header {
+    background-color: $primary;
+    color: white;
+}
