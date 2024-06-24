@@ -45,7 +45,7 @@ export default {
                     self.ingredients = ingredients;
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error, 'Could not load ingredients');
+                    const msg = _errorHandler.getMessage(error, 'There was a problem loading the ingredients');
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {
@@ -95,7 +95,7 @@ export default {
                             }
                         })
                         .catch(function (error) {
-                            const msg = _errorHandler.getMessage(error, 'Problem deleting ingredient');
+                            const msg = _errorHandler.getMessage(error, 'There was a problem deleting ingredient');
                             self.messageCenter.error(msg);
                         })
                         .finally(function () {

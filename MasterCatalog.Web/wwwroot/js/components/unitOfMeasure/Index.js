@@ -38,7 +38,7 @@ createApp({
                     self.unitsOfMeasure = uoms;
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error, "Could not load Units of Measure.");
+                    const msg = _errorHandler.getMessage(error, "There was a problem loading Units of Measure.");
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {
@@ -55,7 +55,7 @@ createApp({
                     self.messageCenter.success('Unit of measure added successfully!');
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error, "Could not add Unit of Measure.");
+                    const msg = _errorHandler.getMessage(error, "There was a problem inserting the Unit of Measure.");
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {
@@ -77,7 +77,7 @@ createApp({
                     self.messageCenter.success('Unit of measure updated successfully!');
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error, "Could not update Unit of Measure.");
+                    const msg = _errorHandler.getMessage(error, "There was a problem updating the Unit of Measure.");
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {
@@ -99,7 +99,7 @@ createApp({
                     self.messageCenter.success('Unit of measure deleted successfully!');
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error, "Could not delete Unit of Measure.");
+                    const msg = _errorHandler.getMessage(error, "There was a problem deleting the Unit of Measure.");
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {

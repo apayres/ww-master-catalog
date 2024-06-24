@@ -1,8 +1,8 @@
 ﻿import { ButtonPrimary, ButtonPrimaryOutlined, ButtonIcon } from '../shared/buttons/Index.js';
+import { TextBox, NumericTextBox, TextArea, DropDownList } from '../shared/inputs/Index.js';
 import { MessageCenter } from '../Shared/MessageCenter/Index.js';
 import { default as CompanySelector } from '../company/CompanySelector.js';
 import { DialogConfirmation } from '../Shared/Dialogs/Index.js'
-
 import { ItemService } from '../../services/itemService.js';
 import { CategoryService } from '../../services/categoryService.js';
 import { UnitOfMeasureService } from '../../services/unitofmeasureService.js';
@@ -34,7 +34,11 @@ export default {
         ButtonIcon,
         MessageCenter,
         CompanySelector,
-        DialogConfirmation
+        DialogConfirmation,
+        TextBox,
+        DropDownList,
+        NumericTextBox,
+        TextArea
     },
     methods: {
         loadUnitsOfMeasure() {
@@ -155,6 +159,16 @@ export default {
             return category.parentCategory ? category.parentCategory.categoryName + ' > ' + category.categoryName : category.categoryName;
         }
     },
+    computed: {
+        formattedCategoryList() {
+            return this.categories.map((obj) => {
+                return {
+                    categoryName: this.getFormattedCategoryName(obj),
+                    categoryID: obj.categoryID
+                };
+            });
+        }
+    },
     mounted() {
         this.messageCenter = this.$refs.messageCenter;
         this.loadUnitsOfMeasure();
@@ -230,6 +244,7 @@ export default {
 
         <div>
             <message-center ref="messageCenter"></message-center>
+
             <div class="p-3" v-if="!loading">
                 <div class="row mb-2">
                     <div class="col-8">
@@ -249,46 +264,70 @@ export default {
             
                 <div class="row mb-2">
                     <div class="col-5">
-                        <label class="form-label">Name</label>
-                        <input type="text" class="form-control" v-model="item.itemName" />
-                        <span class="text-danger" v-if="item.itemNameError">{{item.itemNameError}}</span>
+                        <text-box
+                            label="Name"
+                            tooltip="Item Name"
+                            v-model:value="item.itemName"
+                            :error="item.itemNameError"
+                            :disabled="loading">
+                        </text-box>
                     </div>
                     <div class="col-3">
-                        <label class="form-label">Upc</label>
-                        <input type="text" class="form-control" v-model="item.upc" />
-                        <span class="text-danger" v-if="item.upcError">{{item.upcError}}</span>
+                        <text-box
+                            label="Upc"
+                            tooltip="Item Upc"
+                            v-model:value="item.upc"
+                            :error="item.upcError"
+                            :disabled="loading">
+                        </text-box>
                     </div>
                 </div>
 
                 <div class="row mb-2">
                     <div class="col-12">
-                        <label class="form-label">Description</label>
-                        <textarea class="form-control" v-model="item.itemDescription" rows="3"></textarea>
-                        <span class="text-danger" v-if="item.itemDescriptionError">{{item.itemDescriptionError}}</span>
+                         <text-area
+                            label="Description"
+                            tooltip="Item Description"
+                            v-model:value="item.itemDescription"
+                            :error="item.itemDescriptionError"
+                            :disabled="loading">
+                        </text-area>
                     </div>
                 </div>
 
                 <div class="row mb-2">
-                    <div class="col-5">
-                        <label class="form-label">Category</label>
-                        <select class="form-select" v-model="item.categoryID" :disabled="categories.length === 0">
-                            <option>Select Category...</option>
-                            <option v-for:="category in categories" :value="category.categoryID" :title="category.categoryDescription"> {{ getFormattedCategoryName(category) }}</option>
-                        </select>
-                        <span class="text-danger" v-if="item.categoryIDError">{{item.categoryIDError}}</span>
+                    <div class="col-5">                        
+                        <drop-down-list
+                            label="Category"
+                            text-binding="categoryName"
+                            value-binding="categoryID"
+                            tooltip="Item Category"
+                            :options="formattedCategoryList"
+                            :disabled="loading || categories.length === 0"
+                            :error="item.categoryIDError"
+                            v-model:value="item.categoryID"
+                        </drop-down-list>
                     </div>
-                    <div class="col-3">
-                        <label class="form-label">Unit of Measure</label>
-                        <select class="form-select" v-model="item.unitOfMeasureID" :disabled="unitsOfMeasure.length === 0">
-                            <option>Select Unit of Measure...</option>
-                            <option v-for:="uom in unitsOfMeasure" :value="uom.unitOfMeasureID" :title="uom.unitOfMeasureDescription"> {{ uom.unitOfMeasureName }}</option>
-                        </select>
-                        <span class="text-danger" v-if="item.unitOfMeasureIDError">{{item.unitOfMeasureIDError}}</span>
+                    <div class="col-3">                        
+                        <drop-down-list
+                            label="Unit of Measure"
+                            text-binding="unitOfMeasureName"
+                            value-binding="unitOfMeasureID"
+                            tooltip="Unit of Measure"
+                            :options="unitsOfMeasure"
+                            :disabled="loading || unitsOfMeasure.length === 0"
+                            :error="item.unitOfMeasureIDError"
+                            v-model:value="item.unitOfMeasureID"
+                        </drop-down-list>
                     </div>
                     <div class="col-2">
-                        <label class="form-label">Quantity</label>
-                        <input type="text" class="form-control" v-model="item.unitQuantity" />
-                        <span class="text-danger" v-if="item.unitQuantityError">{{item.unitQuantityError}}</span>
+                        <numeric-text-box
+                            label="Quantity"
+                            tooltip="Unit Quantity"
+                            v-model:value="item.unitQuantity"
+                            :error="item.unitQuantityError"
+                            :disabled="loading">
+                        </numeric-text-box>
                     </div>
                 </div>                               
 

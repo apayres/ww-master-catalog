@@ -12,10 +12,7 @@
         label: String,
         classes: String,
         disabled: Boolean,
-        error: String,
-        options: Array,
-        textBinding: String,
-        valueBinding: String
+        error: String
     },
     computed: {
         isDisabled() {
@@ -23,6 +20,11 @@
         },
         cssClasses() {
             let defaultClasses = ' form-control';
+
+            if (!this.classes) {
+                return defaultClasses;
+            }
+
             return this.classes + defaultClasses;
         }
     },
@@ -32,14 +34,14 @@
                 return false;
             }
 
-            this.$emit('update:value', val);
+            this.$emit('update:value', Number(val));
         },
         value(val) {
             if (!this.startWatch) {
                 return false;
             }
 
-            this.inputValue = val;
+            this.inputValue = Number(val);
         }
     },
     mounted() {
@@ -48,12 +50,11 @@
     },
     template: `
         <div>
-            <label class="form-label">{{ label }}</label>
-            <select class="form-select" v-model="inputValue" :disabled="disabled">
-                <option v-for:="option in options" class="mt-2" :value="option[valueBinding]">
-                    {{ option[textBinding] }}
-                </option>
-            </select>
+            <label v-if="label" class="form-label">{{ label }}</label>
+            <div class="input-group" :title="tooltip">
+                <span class="input-group-text">$</span>
+                <input type="text" :class="cssClasses" v-model.lazy="inputValue" :disabled="disabled" />
+            </div>
             <span class="text-danger" v-if="error">{{ error }}</span>
         </div>
     `

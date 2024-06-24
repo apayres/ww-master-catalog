@@ -1,4 +1,5 @@
 ﻿import { ButtonPrimary, ButtonPrimaryOutlined } from '../shared/buttons/Index.js';
+import { TextBox } from '../shared/inputs/Index.js';
 import { Company } from '../../models/company.js';
 
 export default {
@@ -8,7 +9,8 @@ export default {
     },
     components: {
         ButtonPrimary,
-        ButtonPrimaryOutlined
+        ButtonPrimaryOutlined,
+        TextBox
     },
     methods: {
         addClick() {
@@ -34,14 +36,22 @@ export default {
             <h4 class="mb-3">Company</h4>
             <form id="uomForm" v-on:submit.prevent>
                 <div class="mb-2">
-                    <label class="form-label">Name</label>
-                    <input type="text" class="form-control" v-model="model.companyName" />
-                    <span class="text-danger" v-if="model.companyNameError">{{model.companyNameError}}</span>
+                    <text-box
+                        label="Name"
+                        tooltip="Company Name"
+                        v-model:value="model.companyName"
+                        :error="model.companyNameError"
+                        :disabled="processing">
+                    </text-box>
                 </div>
                 <div class="mb-2">
-                    <label class="form-label">Code</label>
-                    <input type="text" class="form-control" v-model="model.companyCode" />
-                    <span class="text-danger" v-if="model.companyCodeError">{{model.companyCodeError}}</span>
+                    <text-box
+                        label="Code"
+                        tooltip="Company Code"
+                        v-model:value="model.companyCode"
+                        :error="model.companyCodeError"
+                        :disabled="processing">
+                    </text-box>
                 </div>
 
                 <div class="mt-4">

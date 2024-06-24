@@ -76,20 +76,22 @@ export default {
                     <td class="p-3">{{attribute.attributeDescription}}</td>
                     <td class="p-3">{{dataTypeName(attribute)}}</td>
                     <td class="p-3 text-end" style="min-width: 150px">
-                        <button-icon icon="bi-pencil"                                        
-                                     tooltip="update item attribute"
-                                     text="Edit"
-                                     :disabled="processing"
-                                     classes="text-secondary"
-                                     v-on:click-event="updateClick(attribute)">
+                        <button-icon
+                            icon="bi-pencil"
+                            tooltip="update item attribute"
+                            text="Edit"
+                            :disabled="processing"
+                            classes="text-secondary"
+                            v-on:click-event="updateClick(attribute)">
                         </button-icon>
 
-                        <button-icon icon="bi-trash"
-                                     tooltip="delete attribute"
-                                     text="Delete"
-                                     :disabled="processing"
-                                     classes="text-danger ms-3"
-                                     v-on:click-event="deleteClick(attribute.itemAttributeID)">
+                        <button-icon
+                            icon="bi-trash"
+                            tooltip="delete attribute"
+                            text="Delete"
+                            :disabled="processing"
+                            classes="text-danger ms-3"
+                            v-on:click-event="deleteClick(attribute.itemAttributeID)">
                         </button-icon>
                     </td>
                 </tr>

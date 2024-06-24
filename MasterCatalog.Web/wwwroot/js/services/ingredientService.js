@@ -46,6 +46,7 @@ export class IngredientService {
             );
 
             ingredient.item.upc = obj.item.upc;
+            ingredient.item.unitOfMeasure = obj.item.unitOfMeasure;
         }
 
         return ingredient;

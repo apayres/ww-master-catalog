@@ -49,7 +49,7 @@
     <None Include="wwwroot\js\components\shared\buttons\ButtonPrimaryOutlined.js" />
     <None Include="wwwroot\js\components\shared\dialogs\DialogAlert.js" />
     <None Include="wwwroot\js\components\shared\dialogs\DialogConfirmation.js" />
-    <None Include="wwwroot\js\components\shared\links\Anchor.js" />
+    <None Include="wwwroot\js\components\shared\links\Index.js" />
     <None Include="wwwroot\js\components\shared\messageCenter\Index.js" />
     <None Include="wwwroot\js\components\shared\messageCenter\MessageDanger.js" />
     <None Include="wwwroot\js\components\shared\messageCenter\MessageSuccess.js" />

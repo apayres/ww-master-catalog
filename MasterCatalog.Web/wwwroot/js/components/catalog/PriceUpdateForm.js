@@ -3,6 +3,7 @@ import { CatalogItem } from '../../models/catalogItem.js';
 import { ErrorHandler } from '../../utilities/errorHandler.js';
 import { MessageCenter } from '../Shared/MessageCenter/Index.js';
 import { ButtonPrimary, ButtonPrimaryOutlined } from '../shared/buttons/Index.js';
+import { MoneyTextBox } from '../shared/inputs/Index.js';
 
 const _service = new CompanyCatalogService();
 const _errorHandler = new ErrorHandler();
@@ -15,14 +16,15 @@ export default {
 
     data() {
         return {
-            retailPrice: Number,
-            itemPriceError: String
+            retailPrice: null,
+            itemPriceError: ''
         }
     },
     components: {
         MessageCenter,
         ButtonPrimary,
         ButtonPrimaryOutlined,
+        MoneyTextBox
     },
     methods: {
         saveClick() {
@@ -85,14 +87,14 @@ export default {
                     </div>
                     <div class="modal-body">
                         <message-center ref="messageCenter"></message-center>
-                        <label class="form-label">Retail Price</label>
-                        <div class="col-3">
-                            <div class="input-group">
-                                <span class="input-group-text">$</span>
-                                <input type="text" class="form-control" v-model="retailPrice" />                           
-                            </div>
+                        <div class="col-4">
+                            <money-text-box
+                                label="Retail Price"
+                                tooltip="Retail Price"
+                                v-model:value="retailPrice"
+                                :error="itemPriceError">
+                            </money-text-box>
                         </div>
-                        <span class="text-danger" v-if="itemPriceError">{{ itemPriceError }}</span>
                     </div>
                     <div class="modal-footer">
                         <button-primary

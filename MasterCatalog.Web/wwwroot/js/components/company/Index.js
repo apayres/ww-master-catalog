@@ -37,7 +37,7 @@ createApp({
                     self.companies = companies;
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error);
+                    const msg = _errorHandler.getMessage(error, "There was a problem loading the companies.");
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {

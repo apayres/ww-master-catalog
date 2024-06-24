@@ -1,4 +1,5 @@
 import { ButtonPrimary, ButtonPrimaryOutlined } from '../shared/buttons/Index.js';
+import { TextBox } from '../shared/inputs/Index.js';
 import { UnitOfMeasure } from '../../models/unitOfMeasure.js';
 
 export default {
@@ -8,7 +9,8 @@ export default {
     },
     components: {
         ButtonPrimary,
-        ButtonPrimaryOutlined
+        ButtonPrimaryOutlined,
+        TextBox
     },
     methods: {
         addClick() {
@@ -33,21 +35,30 @@ export default {
         <div class="p-3">
             <h4 class="mb-3">Unit of Measure</h4>
             <div class="mb-2">
-                <label class="form-label">Name</label>
-                <input type="text" class="form-control" v-model="model.unitOfMeasureName" />
-                <span class="text-danger" v-if="model.unitOfMeasureNameError">{{model.unitOfMeasureNameError}}</span>
+                <text-box
+                    label="Name"
+                    tooltip="Unit of Measure Name"
+                    v-model:value="model.unitOfMeasureName"
+                    :error="model.unitOfMeasureNameError"
+                    :disabled="processing">
+                </text-box>
             </div>
 
             <div class="mb-2">
-                <label class="form-label">Description</label>
-                <input type="text" class="form-control" v-model="model.unitOfMeasureDescription" />
-                <span class="text-danger" v-if="model.unitOfMeasureDescriptionError">{{model.unitOfMeasureDescriptionError}}</span>
+                <text-box
+                    label="Description"
+                    tooltip="Unit of Measure Description"
+                    v-model:value="model.unitOfMeasureDescription"
+                    :error="model.unitOfMeasureDescriptionError"
+                    :disabled="processing">
+                </text-box>
             </div>
 
             <div class="mt-4">
                 <button-primary
                     text="Add"
                     icon="bi-plus-circle"
+                    classes="me-2"
                     :disabled="processing"
                     v-if="!model.unitOfMeasureID"
                     v-on:click-event="addClick">
@@ -56,12 +67,11 @@ export default {
                 <button-primary
                     text="Save"
                     icon="bi-floppy-fill"
+                    classes="me-2"
                     :disabled="processing"
                     v-if="model.unitOfMeasureID"
                     v-on:click-event="updateClick">
                 </button-primary>
-
-                <span class="me-2"></span>
 
                 <button-primary-outlined
                     text="Cancel"

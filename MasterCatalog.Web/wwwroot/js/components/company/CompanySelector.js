@@ -3,6 +3,7 @@ import { CompanyService } from '../../services/companyService.js';
 import { ErrorHandler } from '../../utilities/errorHandler.js';
 import { CatalogItem } from '../../models/catalogItem.js';
 import { MessageCenter } from '../Shared/MessageCenter/Index.js';
+import { DropDownList, MoneyTextBox } from '../shared/inputs/Index.js';
 import { ButtonPrimary, ButtonPrimaryOutlined } from '../shared/buttons/Index.js';
 
 const _companyService = new CompanyService();
@@ -16,10 +17,10 @@ export default {
     data() {
         return {
             companies: [],
-            selectedCompanyID: Number,
-            selectedCompanyIDError: String,
-            retailPrice: Number,
-            itemPriceError: String
+            selectedCompanyID: null,
+            selectedCompanyIDError: '',
+            retailPrice: null,
+            itemPriceError: ''
         }
     },
     props: {
@@ -28,7 +29,9 @@ export default {
     components: {
         ButtonPrimary,
         ButtonPrimaryOutlined,
-        MessageCenter
+        MessageCenter,
+        DropDownList,
+        MoneyTextBox
     },
     methods: {
         loadCompanies() {
@@ -41,7 +44,7 @@ export default {
                 })
                 .catch(function (error) {
                     const msg = _errorHandler.getMessage(error);
-                    self.messageCenter.error(msg);
+                    self.messageCenter.error(msg, "There was a problem loading the companies.");
                 })
                 .finally(function () {
                     self.processing = false;
@@ -60,7 +63,7 @@ export default {
                     });
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error);
+                    const msg = _errorHandler.getMessage(error, "There was a problem loading the item catalog.");
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {
@@ -92,7 +95,7 @@ export default {
                     self.dialog.hide();
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error, "There was a problem addint to the company.");
+                    const msg = _errorHandler.getMessage(error, "There was a problem adding the item to the company catalog.");
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {
@@ -130,22 +133,26 @@ export default {
                     </div>
                     <div class="modal-body">
                         <message-center ref="messageCenter"></message-center>
-                        <div class="mb-4">
-                            <label class="form-label">Company</label>
-                            <select class="form-select" v-model="selectedCompanyID">
-                                <option value="0">Select Company...</option>
-                                <option v-for:="company in companies" :value="company.companyID">{{ company.companyName }}</option>
-                            </select>
-                            <span class="text-danger" v-if="selectedCompanyIDError">{{ selectedCompanyIDError }}</span>
+
+                        <div class="mb-4 col-6">                            
+                            <drop-down-list
+                                label="Company"
+                                text-binding="companyName"
+                                value-binding="companyID"
+                                :error="selectedCompanyIDError"
+                                :options="companies"
+                                :disabled="companies.length === 0"
+                                v-model:value="selectedCompanyID"
+                            </drop-down-list>
                         </div>
-                        <label class="form-label">Retail Price</label>
-                        <div class="col-3">
-                            <div class="input-group">
-                                <span class="input-group-text">$</span>
-                                <input type="text" class="form-control" v-model="retailPrice" />
-                            </div>
-                        </div>
-                        <span class="text-danger" v-if="itemPriceError">{{ itemPriceError }}</span>
+                        <div class="col-4">
+                            <money-text-box
+                                label="Retail Price"
+                                tooltip="Retail Price"
+                                v-model:value="retailPrice"
+                                :error="itemPriceError">
+                            </money-text-box>
+                        </div>                        
                     </div>
                     <div class="modal-footer">
                         <button-primary

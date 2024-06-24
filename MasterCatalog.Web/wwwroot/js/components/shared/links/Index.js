@@ -1,4 +1,4 @@
-﻿export default {
+﻿export const Anchor = {
     props: ['text', 'icon', 'tooltip'],
     methods: {
         clickEvent() {

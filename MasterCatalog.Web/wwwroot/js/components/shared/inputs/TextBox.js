@@ -1,4 +1,6 @@
 ﻿export default {
+    startWatch: false,
+
     data() {
         return {
             inputValue: ''
@@ -17,21 +19,38 @@
             return this.disabled;
         },
         cssClasses() {
-            let defaultClasses = ' form-control';           
+            let defaultClasses = ' form-control';    
+            
+            if (!this.classes) {
+                return defaultClasses; 
+            }
+
             return this.classes + defaultClasses;
         }
     },
     watch: {
         inputValue(val) {
+            if (!this.startWatch) {
+                return false;
+            }
+
             this.$emit('update:value', val);
         },
-        value(val) {
+        value(val) {            
+            if (!this.startWatch) {
+                return false;
+            }
+
             this.inputValue = val;
         }
     },
+    mounted() {
+        this.inputValue = this.value;
+        this.startWatch = true;
+    },
     template: `
         <div>
-            <label class="form-label">{{ label }}</label>
+            <label v-if="label" class="form-label">{{ label }}</label>
             <input type="text" :class="cssClasses" v-model.lazy="inputValue" :title="tooltip" :disabled="disabled" />
             <span class="text-danger" v-if="error">{{ error }}</span>
         </div>

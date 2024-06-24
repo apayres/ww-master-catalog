@@ -31,7 +31,7 @@
         }
 
         if (!this.ratio) {
-            this.ratioError = 'Ratio is Required and must be greater than 0.';
+            this.ratioError = 'Ratio > 0 is Required.';
             valid = false;
         }
 

@@ -3,6 +3,7 @@ import { ErrorHandler } from '../../utilities/errorHandler.js';
 import { ButtonPrimary, ButtonPrimaryOutlined, ButtonIcon } from '../shared/buttons/Index.js';
 import { MessageCenter } from '../Shared/MessageCenter/Index.js';
 import { Pagination } from '../shared/pagination/Index.js';
+import { SearchTextBox } from '../shared/inputs/Index.js';
 
 
 const _service = new ItemService();
@@ -32,7 +33,8 @@ export default {
         ButtonPrimaryOutlined,
         ButtonIcon,
         MessageCenter,
-        Pagination
+        Pagination,
+        SearchTextBox
     },
     methods: {
         loadItems() {
@@ -140,16 +142,12 @@ export default {
                         <message-center ref="messageCenter"></message-center>
 
                         <div class="col-6 mb-3">
-                            <div class="input-group">
-                                <input v-on:keyup.enter="searchClick" type="text" class="form-control" placeholder="Search items..." v-model.lazy="searchTerm" />
-                                <span class="input-group-text">
-                                    <button-icon
-                                        icon="bi-search"
-                                        :disabled="processing"
-                                        v-on:click-event="searchClick">
-                                    </button-icon>
-                                </span>
-                            </div>
+                            <search-text-box
+                                placeholder="Search items..."
+                                v-model:value="searchTerm"
+                                :event="searchClick"
+                                :disabled="processing">
+                            </search-text-box>
                         </div>
 
                         <ul class="list-group mb-2">

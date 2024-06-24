@@ -29,6 +29,21 @@ createApp({
         AttributeForm
     },
     methods: {
+        loadAttributes() {
+            const self = this;
+
+            _service.get()
+                .then(function (attributes) {
+                    self.attributes = attributes;
+                })
+                .catch(function (error) {
+                    const msg = _errorHandler.getMessage(error, "There was a problem loading the attributes.");
+                    self.messageCenter.error(msg);
+                })
+                .finally(function () {
+                    self.processing = false;
+                });
+        },
         addAttribute(attribute) {
             const self = this;
             self.processing = true;
@@ -107,19 +122,7 @@ createApp({
         }
     },
     mounted() {
-        const self = this;
-        self.messageCenter = this.$refs.messageCenter;
-
-        _service.get()
-            .then(function (attributes) {
-                self.attributes = attributes;
-            })
-            .catch(function (error) {
-                const msg = _errorHandler.getMessage(error, "Could not load attributes.");
-                self.messageCenter.error(msg);
-            })
-            .finally(function () {
-                self.processing = false;
-            });
+        this.messageCenter = this.$refs.messageCenter;
+        this.loadAttributes();
     }
 }).mount('#content');

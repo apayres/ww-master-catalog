@@ -1,4 +1,5 @@
 ﻿import { ButtonPrimary, ButtonPrimaryOutlined, ButtonIcon } from '../shared/buttons/Index.js';
+import { TextBox, DropDownList } from '../shared/inputs/Index.js';
 import { ItemAttribute } from '../../models/itemAttribute.js';
 import { ItemAttributeOption } from '../../models/itemAttributeOption.js';
 
@@ -15,7 +16,9 @@ export default {
     components: {
         ButtonPrimary,
         ButtonPrimaryOutlined,
-        ButtonIcon
+        ButtonIcon,
+        TextBox,
+        DropDownList
     },
     methods: {
         addClick() {
@@ -36,8 +39,7 @@ export default {
             this.$emit('cancel-form-action');
         },
         addOption() {
-            const option = this.attributeOption.attributeOption;
-            if (!option) {
+            if (!this.attributeOption.attributeOption) {
                 return false;
             }
 
@@ -46,13 +48,26 @@ export default {
             }
 
             this.model.attributeOptions.push(
-                new ItemAttributeOption(null, this.model.itemAttributeID, option)
+                new ItemAttributeOption(null, this.model.itemAttributeID, this.attributeOption.attributeOption)
             );
 
+            console.log(this.model.attributeOptions);
             this.attributeOption = new ItemAttributeOption(null, this.model.itemAttributeID, null);
+            console.log(this.model.attributeOptions);
         },
         removeOption(index) {
             this.model.attributeOptions.splice(index, 1);
+        }
+    },
+    computed: {
+        dataTypeOptions() {
+            return [
+                { name: "None", id: 0 },
+                { name: "Boolean", id: 1 },
+                { name: "Multi-Select", id: 2 },
+                { name: "Text", id: 3 },
+                { name: "Number", id: 4 }
+            ];
         }
     },
     template: `
@@ -60,35 +75,42 @@ export default {
             <h4 class="mb-3">Item Attribute</h4>
             <form id="attributeForm" v-on:submit.prevent>
                 <div class="mb-2">
-                    <label class="form-label">Name</label>
-                    <input type="text" class="form-control" v-model="model.attributeName" />
-                    <span class="text-danger" v-if="model.attributeNameError">{{model.attributeNameError}}</span>
+                    <text-box
+                        label="Name"
+                        tooltip="Attribute Name"
+                        v-model:value="model.attributeName"
+                        :error="model.attributeNameError"
+                        :disabled="processing">
+                    </text-box>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Description</label>
-                    <input type="text" class="form-control" v-model="model.attributeDescription" />
-                    <span class="text-danger" v-if="model.attributeDescriptionError">{{model.attributeDescriptionError}}</span>
+                    <text-box
+                        label="Description"
+                        tooltip="Attribute Description"
+                        v-model:value="model.attributeDescription"
+                        :error="model.attributeDescriptionError"
+                        :disabled="processing">
+                    </text-box>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Data Type</label>
-                    <select class="form-select" v-model="model.attributeDataTypeID">
-                            <option value="0">None</option>
-                            <option value="1">Boolean (Yes/No)</option>
-                            <option value="2">Multi-Select</option>
-                            <option value="3">Text</option>
-                            <option value="4">Number</option>
-                    </select>
-
-                    <span class="text-danger" v-if="model.attributeDataTypeIDError">{{model.attributeDataTypeIDError}}</span>
+                    <drop-down-list
+                        label="Data Type"
+                        text-binding="name"
+                        value-binding="id"
+                        tooltip="Attribute Data Type"
+                        :options="dataTypeOptions"
+                        :error="model.attributeDataTypeIDError"
+                        v-model:value="model.attributeDataTypeID"
+                    </drop-down-list>
                 </div>
 
                 <div v-if:="model.attributeDataTypeID == 2">
                     <h5 class="mb-3">Options</h5>
                     <div class="row mb-2" v-for:="(option, index) in model.attributeOptions">
                         <div class="col-10">
-                            <input type="text" class="form-control" v-model="option.attributeOption" />
+                            <text-box v-model:value="option.attributeOption"></text-box>
                         </div>
                         <div class="col-2 pt-1">
                             <button-icon
@@ -103,7 +125,7 @@ export default {
 
                     <div class="row mb-2">
                         <div class="col-10">
-                            <input type="text" class="form-control" v-model="attributeOption.attributeOption" />
+                            <text-box v-model:value="attributeOption.attributeOption"></text-box>
                         </div>
                         <div class="col-2 pt-1">
                             <button-icon

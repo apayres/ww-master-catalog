@@ -1,5 +1,6 @@
 ﻿import { ButtonIcon } from '../shared/buttons/Index.js';
-import { default as Anchor } from '../Shared/Links/Anchor.js';
+import { Anchor } from '../Shared/Links/Index.js';
+import { SearchTextBox } from '../shared/inputs/Index.js';
 
 export default {
 
@@ -15,7 +16,8 @@ export default {
     },
     components: {
         ButtonIcon,
-        Anchor
+        Anchor,
+        SearchTextBox
     },
     methods: {
         searchClick() {
@@ -37,17 +39,13 @@ export default {
     },
     template: `
         <div class="row mb-3">
-            <div class="col-4">
-                <div class="input-group mt-2">
-                    <input v-on:keyup.enter="searchClick" type="text" class="form-control" placeholder="Search catalog..." v-model="searchTerm" />
-                    <span class="input-group-text">
-                        <button-icon
-                            icon="bi-search"
-                            :disabled="loading"
-                            v-on:click-event="searchClick">
-                        </button-icon>
-                    </span>
-                </div>
+            <div class="col-4">                
+                <search-text-box
+                    placeholder="Search catalog..."
+                    v-model:value="searchTerm"
+                    :event="searchClick"
+                    :disabled="loading">
+                </search-text-box>
             </div>
             <div class="col-1">
                 <anchor

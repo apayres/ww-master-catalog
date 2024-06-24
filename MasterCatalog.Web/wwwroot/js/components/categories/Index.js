@@ -66,7 +66,15 @@ createApp({
             const self = this;
             self.processing = true;
 
-            _service.update(toRaw(category))
+            const categoryToUpdate = new Category(
+                category.categoryID,
+                category.categoryName,
+                category.categoryDescription
+            );
+
+            categoryToUpdate.parentCategoryID = category.parentCategoryID;
+
+            _service.update(categoryToUpdate)
                 .then(function (response) {
                     self.loadCategories();
                     self.messageCenter.success('Category updated successfully!');

@@ -4,6 +4,7 @@ import { IngredientService } from '../../services/ingredientService.js';
 import { ItemService } from '../../services/itemService.js';
 import { ErrorHandler } from '../../utilities/errorHandler.js';
 import { ButtonPrimary, ButtonPrimaryOutlined } from '../shared/buttons/Index.js';
+import { DropDownList, NumericTextBox } from '../shared/inputs/Index.js';
 
 const _service = new IngredientService();
 const _itemService = new ItemService();
@@ -24,13 +25,19 @@ export default {
     components: {
         ButtonPrimary,
         ButtonPrimaryOutlined,
-        MessageCenter
+        MessageCenter,
+        DropDownList,
+        NumericTextBox
     },
     methods: {
         loadItems() {
             const self = this;
             if (self.ingredient.ingredientID) {
-                self.items = [];
+                self.items = [{
+                    itemName: self.ingredient.item.itemName,
+                    itemID: self.ingredient.item.itemID
+                }];
+
                 return false;
             }
 
@@ -39,7 +46,7 @@ export default {
                     self.items = items;
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error, 'Could not load items');
+                    const msg = _errorHandler.getMessage(error, 'There was a problem loading the items');
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {
@@ -49,16 +56,16 @@ export default {
         saveClick() {
             const self = this;
             
+            if (!self.ingredient.validate()) {
+                return false;
+            }
+
             const obj = new Ingredient(
                 self.ingredient.ingredientID,
                 self.ingredient.recipeItemID,
                 self.ingredient.itemID,
                 self.ingredient.ratio
             );
-
-            if (!obj.validate()) {
-                return false;
-            }
 
             obj.item = null;
             if (obj.ingredientID) {
@@ -72,7 +79,16 @@ export default {
             this.dialog.hide();
         },
         show(ingredient, callback) {
-            this.ingredient = { ...ingredient };
+
+            this.ingredient = new Ingredient(
+                ingredient.ingredientID,
+                ingredient.recipeItemID,
+                ingredient.itemID,
+                ingredient.ratio
+            );
+
+            this.ingredient.item = ingredient.item;
+
             this.saveCallback = callback;
             this.loadItems();
             this.dialog.show();
@@ -89,7 +105,7 @@ export default {
                     self.dialog.hide();
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error, 'Problem inserting ingredient');
+                    const msg = _errorHandler.getMessage(error, 'There was a problem inserting ingredient');
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {
@@ -106,7 +122,7 @@ export default {
                     self.saveCallback(obj);
                 })
                 .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error, 'Problem saving ingredient');
+                    const msg = _errorHandler.getMessage(error, 'There was a problem saving ingredient');
                     self.messageCenter.error(msg);
                 })
                 .finally(function () {
@@ -131,23 +147,30 @@ export default {
                     </div>
                     <div class="modal-body">
                         <message-center ref="messageCenter"></message-center>
+
                         <div class="col-6">
-                            <label class="form-label">Item</label>
-
-                            <input v-if="!items.length" type="text" class="form-control" disabled v-model="ingredient.item.itemName" />
-
-                            <select v-if="items.length" class="form-select" v-model="ingredient.itemID">
-                                <option>Select Item...</option>
-                                <option v-for:="item in items" :value="item.itemID"> {{ item.itemName }}</option>
-                            </select>
+                            <drop-down-list
+                                label="Item"
+                                text-binding="itemName"
+                                value-binding="itemID"
+                                tooltip="Item"
+                                :options="items"
+                                :disabled="items.length < 2"
+                                :error="ingredient.itemIDError"
+                                v-model:value="ingredient.itemID"
+                            </drop-down-list>
                         </div>
-                        <span class="text-danger" v-if="ingredient.itemIDError">{{ ingredient.itemIDError }}</span>
 
                         <div class="col-3 mt-2">
-                            <label class="form-label">Ratio</label>
-                            <input type="text" class="form-control" v-model="ingredient.ratio" />
+                            <numeric-text-box
+                                label="Ratio"
+                                tooltip="Unit Ratio"
+                                v-model:value="ingredient.ratio"
+                                :error="ingredient.ratioError"
+                                :disabled="saving">
+                            </numeric-text-box>
                         </div>
-                        <span class="text-danger" v-if="ingredient.ratioError">{{ ingredient.ratioError }}</span>
+
                     </div>
                     <div class="modal-footer">
                         <button-primary

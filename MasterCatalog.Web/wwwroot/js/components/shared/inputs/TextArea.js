@@ -8,14 +8,11 @@
     },
     props: {
         tooltip: String,
-        value: Number,
+        value: String,
         label: String,
         classes: String,
         disabled: Boolean,
-        error: String,
-        options: Array,
-        textBinding: String,
-        valueBinding: String
+        error: String
     },
     computed: {
         isDisabled() {
@@ -23,6 +20,11 @@
         },
         cssClasses() {
             let defaultClasses = ' form-control';
+
+            if (!this.classes) {
+                return defaultClasses;
+            }
+
             return this.classes + defaultClasses;
         }
     },
@@ -48,12 +50,8 @@
     },
     template: `
         <div>
-            <label class="form-label">{{ label }}</label>
-            <select class="form-select" v-model="inputValue" :disabled="disabled">
-                <option v-for:="option in options" class="mt-2" :value="option[valueBinding]">
-                    {{ option[textBinding] }}
-                </option>
-            </select>
+            <label v-if="label" class="form-label">{{ label }}</label>
+            <textarea class="form-control" :class="cssClasses" v-model.lazy="inputValue" :title="tooltip" :disabled="disabled"  rows="3"></textarea>
             <span class="text-danger" v-if="error">{{ error }}</span>
         </div>
     `
