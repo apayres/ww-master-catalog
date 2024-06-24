@@ -27,4 +27,4 @@ a lot of fun and I learned a lot. Which was the whole point ;)
 
 ## WookieeWare Systems
 
-WookieeWare Systems is a fictitious company that provides software solutions for retail, hospitality, & resturant clients. 
+WookieeWare Systems is a fictitious company that provides software solutions for retail, hospitality, & restaurant clients. 
