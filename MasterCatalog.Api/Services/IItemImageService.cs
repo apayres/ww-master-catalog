@@ -11,5 +11,6 @@ namespace MasterCatalog.Api.Services
         void DeleteImagesByItem(Item item);
         void UpdateItemImage(ItemImage image);
         ItemImage UploadImage(ItemImageUploadModel model);
+        Dictionary<int, List<ItemImage>> GetItemImagesGroupedByItemID();
     }
 }

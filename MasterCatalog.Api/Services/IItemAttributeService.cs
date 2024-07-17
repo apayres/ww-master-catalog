@@ -14,6 +14,8 @@ namespace MasterCatalog.Items.Api.Services
 
         ItemAttribute InsertItemAttributeAndOptions(ItemAttribute itemAttribute);
 
+        Dictionary<int, List<ItemAttribute>> GetItemAttributesGroupedByItemID();
+
         void DeleteItemAttribute(int id);
 
         void DeleteAttributeValuesByItemID(int id); 

@@ -1,5 +1,4 @@
 ﻿using MasterCatalog.Dal.Contracts;
-using MasterCatalog.Domain.Enums;
 using MasterCatalog.Domain.Models;
 
 namespace MasterCatalog.Items.Api.Services
@@ -49,6 +48,43 @@ namespace MasterCatalog.Items.Api.Services
             }
 
             return attributes.OrderBy(x => x.AttributeValue == null ? 9999 : x.AttributeValue.DisplayOrder).ToList();
+        }
+
+        public Dictionary<int, List<ItemAttribute>> GetItemAttributesGroupedByItemID()
+        {
+            var attributes = _attributeRepository.GetAll();
+            var attributeValues = _attributeValueRepository.GetAll();
+            var itemIDs = attributeValues.Select(x => x.ItemID).Distinct();
+
+            var attributesGroupedByItem = new Dictionary<int, List<ItemAttribute>>();
+            foreach (var itemID in itemIDs)
+            {
+                if (!attributesGroupedByItem.ContainsKey(itemID))
+                {
+                    attributesGroupedByItem.Add(itemID, new List<ItemAttribute>());
+                }
+
+                var itemAttributeValues = attributeValues.Where(x => x.ItemID == itemID);
+                foreach (var attrValue in itemAttributeValues)
+                {
+                    var attribute = attributes.FirstOrDefault(x => x.ItemAttributeID == attrValue.ItemAttributeID);
+                    if(attribute == null)
+                    {
+                        continue;
+                    }
+
+                    attributesGroupedByItem[itemID].Add(new ItemAttribute()
+                    {
+                        AttributeDataTypeID = attribute.AttributeDataTypeID,
+                        AttributeDescription = attribute.AttributeDescription,
+                        AttributeName = attribute.AttributeName,
+                        AttributeValue = attrValue,
+                        ItemAttributeID = attribute.ItemAttributeID
+                    });
+                }
+            }
+
+            return attributesGroupedByItem;
         }
 
         public List<ItemAttribute> GetItemAttributesWithOptions()

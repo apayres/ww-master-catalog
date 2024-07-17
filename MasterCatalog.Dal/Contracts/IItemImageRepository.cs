@@ -12,6 +12,8 @@ namespace MasterCatalog.Dal.Contracts
 
         List<ItemImage> GetByItemID(int id);
 
+        List<ItemImage> GetAll();
+
         ItemImage Get(int id);
     }
 }

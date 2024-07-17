@@ -8,7 +8,7 @@ namespace MasterCatalog.Items.Api.Services
         Item InsertItem(Item item);
         Item UpdateItem(Item item);
         Dictionary<int, Item> GetItemsGroupByItemID();
-        Item? GetItemWithAttributes(int id);
+        Item? GetItem(int id);
         void DeleteItem(int id);
     }
 }

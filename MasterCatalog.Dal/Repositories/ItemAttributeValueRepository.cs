@@ -43,12 +43,17 @@ namespace MasterCatalog.Dal.Repositories
             return _mapper.Map<List<ItemAttributeValue>>(entities);
         }
 
+        List<ItemAttributeValue> IItemAttributeValueRepository.GetAll()
+        {
+            var entities = base.GetAll();
+            return _mapper.Map<List<ItemAttributeValue>>(entities);
+        }
+
         List<ItemAttributeValue> IItemAttributeValueRepository.GetByItemID(int id)
         {
             var entities = base.GetAll(x => x.ItemID == id);
             return _mapper.Map<List<ItemAttributeValue>>(entities);
         }
-
 
         int IItemAttributeValueRepository.Insert(ItemAttributeValue model)
         {

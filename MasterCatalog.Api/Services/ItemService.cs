@@ -30,6 +30,8 @@ namespace MasterCatalog.Items.Api.Services
             var items = _itemRepository.GetAll();
             var unitsOfMeasure = _unitOfMeasureService.GetUnitsOfMeasureGroupedByUnitOfMeasureID();
             var categories = _categoryService.GetCategoriesGroupedByCategoryID();
+            var images = _itemImageService.GetItemImagesGroupedByItemID();
+            var attributes = _itemAttributeService.GetItemAttributesGroupedByItemID();
 
             foreach (var item in items)
             {
@@ -42,6 +44,16 @@ namespace MasterCatalog.Items.Api.Services
                 {
                     item.Category = categories[item.CategoryID];
                 }
+
+                if (images.ContainsKey(item.ItemID.Value))
+                {
+                    item.Images = images[item.ItemID.Value];
+                }
+
+                if (attributes.ContainsKey(item.ItemID.Value))
+                {
+                    item.Attributes = attributes[item.ItemID.Value];
+                }
             }
 
             return items;
@@ -52,7 +64,7 @@ namespace MasterCatalog.Items.Api.Services
             return GetItems().ToDictionary(x => x.ItemID.Value, y => y);
         }
 
-        public Item? GetItemWithAttributes(int id)
+        public Item? GetItem(int id)
         {
             Item item = _itemRepository.Get(id);
             if (item == null)

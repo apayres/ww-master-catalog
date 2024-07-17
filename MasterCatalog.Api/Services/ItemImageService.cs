@@ -22,6 +22,12 @@ namespace MasterCatalog.Api.Services
             return _itemImageRepository.GetByItemID(itemID);
         }
 
+        public Dictionary<int, List<ItemImage>> GetItemImagesGroupedByItemID()
+        {
+            return _itemImageRepository.GetAll().GroupBy(x => x.ItemID)
+                .ToDictionary(i => i.Key, g => g.ToList());
+        }
+
         public ItemImage UploadImage(ItemImageUploadModel model)
         {
             var uploadedFile = _fileManager.UploadFile(model.UploadData);

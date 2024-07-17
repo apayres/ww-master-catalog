@@ -27,6 +27,12 @@ namespace MasterCatalog.Dal.Repositories
             return _mapper.Map<ItemImage>(entity);
         }
 
+        List<ItemImage> IItemImageRepository.GetAll()
+        {
+            var entities = base.GetAll();
+            return _mapper.Map<List<ItemImage>>(entities);
+        }
+
         List<ItemImage> IItemImageRepository.GetByItemID(int id)
         {
             var entities = base.GetAll(x => x.ItemID == id);

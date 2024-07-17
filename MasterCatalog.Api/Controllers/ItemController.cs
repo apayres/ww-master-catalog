@@ -21,7 +21,7 @@ namespace MasterCatalog.Items.Api.Controllers
         [HttpGet("{id}")]
         public ActionResult<Item> Get(int id)
         {
-            var item = _itemService.GetItemWithAttributes(id);
+            var item = _itemService.GetItem(id);
             if (item == null)
             {
                 return NotFound();

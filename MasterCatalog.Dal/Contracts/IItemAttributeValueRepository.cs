@@ -19,5 +19,7 @@ namespace MasterCatalog.Dal.Contracts
         List<ItemAttributeValue> GetByItemID(int id);
 
         List<ItemAttributeValue> GetByItemAttributeID(int id);
+
+        List<ItemAttributeValue> GetAll();
     }
 }
