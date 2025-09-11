@@ -23,7 +23,8 @@ export default {
         }
     },
     props: {
-        defaultSearchTerm: String
+        defaultSearchTerm: String,
+        defaultPageNumber: String
     },
     components: {
         TablePlaceholder,
@@ -67,7 +68,7 @@ export default {
             }
         },
         viewClick(id) {
-            window.location.href = '/Items/Item/' + id;
+            window.location.href = '/Items/Item/' + id + '?previousPage=' + this.pageNumber;
             return false;
         },
         paginationClick(pageNumber) {
@@ -104,6 +105,7 @@ export default {
     mounted() {
         this.messageCenter = this.$refs.messageCenter;
         this.searchTerm = this.defaultSearchTerm ? this.defaultSearchTerm : '';
+        this.pageNumber = this.defaultPageNumber ? Number(this.defaultPageNumber) : 1;
         this.loadItems();
     },
     template: `

@@ -56,7 +56,10 @@ namespace MasterCatalog.Items.Api.Services
                 }
             }
 
-            return items;
+            return items.OrderBy(x => x.Category?.ParentCategory?.CategoryName)
+                .ThenBy(x => x.Category?.CategoryName)
+                .ThenBy(x => x.ItemName)
+                .ToList();
         }
 
         public Dictionary<int, Item> GetItemsGroupByItemID()

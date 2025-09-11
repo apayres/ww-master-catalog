@@ -16,6 +16,7 @@ const _errorHandler = new ErrorHandler();
 
 export default {
     messageCenter: null,
+    previousPage: 1,
 
     data() {
         return {
@@ -145,7 +146,7 @@ export default {
             );
         },
         cancelClick() {
-            window.location.href = '/Items/Index';
+            window.location.href = '/Items/Index?pageNumber=' + this.previousPage;
         },
         showCompanySelector() {
             const self = this;
@@ -154,6 +155,9 @@ export default {
             companySelector.show(function () {
                 self.messageCenter.success('Item added to company catalog successfully!');
             });
+        },
+        returnToList() {
+            window.location.href = '/Items/Index?pageNumber=' + this.previousPage;
         },
         getFormattedCategoryName(category) {
             return category.parentCategory ? category.parentCategory.categoryName + ' > ' + category.categoryName : category.categoryName;
@@ -170,6 +174,7 @@ export default {
         }
     },
     mounted() {
+        this.previousPage = document.getElementById('previousPageNumber').value ?? 1;
         this.messageCenter = this.$refs.messageCenter;
         this.loadUnitsOfMeasure();
         this.loadCategories();
@@ -252,6 +257,14 @@ export default {
                     </div>
                     <div class="col-4 text-end">
                         <div v-if="item.itemID" class="pe-1">
+                            <button-icon
+                                text="Return to List"
+                                icon="bi-arrow-bar-left"
+                                classes="me-4"
+                                :disabled="loading"
+                                v-on:click-event="returnToList">
+                            </button-icon>
+
                             <button-icon
                                 text="Add to Company Catalog"
                                 icon="bi-plus-lg"
