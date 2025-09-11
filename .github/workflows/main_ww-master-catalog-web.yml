@@ -36,7 +36,7 @@ jobs:
           valueToSet: ${{ vars.APIENDPOINTURL }}          
         
       - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/deployment
@@ -71,3 +71,4 @@ jobs:
           slot-name: 'Production'
           package: .
           
+
