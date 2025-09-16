@@ -20,19 +20,65 @@ namespace MasterCatalog.Items.Api.Controllers
         [HttpGet("{id}")]
         public ActionResult<Item> Get(int id)
         {
-            var item = _itemService.GetItem(id);
-            if (item == null)
+            try
             {
-                return NotFound();
-            }
+                var item = _itemService.GetItem(id);
+                if (item == null)
+                {
+                    return NotFound();
+                }
 
-            return item;
+                return item;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Could not get item: {ex.Message}");
+                throw;
+            }
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<Item>> Get()
         {
-            return _itemService.GetItems();
+            try
+            {
+                return _itemService.GetItems();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Could not get items: {ex.Message}");
+                throw;
+            }
+        }
+
+        [HttpGet ("ingredients")]
+        public ActionResult<IEnumerable<Item>> GetIngredients()
+        {
+            try
+            {
+                return _itemService.GetIngredients();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Could not get items: {ex.Message}");
+                throw;
+            }
+
+        }
+
+        [HttpGet("menuitems")]
+        public ActionResult<IEnumerable<Item>> GetMenuItems()
+        {
+            try
+            {
+                return _itemService.GetMenuItems();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Could not get items: {ex.Message}");
+                throw;
+            }
+
         }
 
         [HttpPost]

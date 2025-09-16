@@ -20,19 +20,35 @@ namespace MasterCatalog.Items.Api.Controllers
         [HttpGet("{id}")]
         public ActionResult<ItemAttribute> Get(int id)
         {
-            var item = _attributeService.GetItemAttributeWithOptions(id);
-            if (item == null)
+            try
             {
-                return NotFound();
-            }
+                var item = _attributeService.GetItemAttributeWithOptions(id);
+                if (item == null)
+                {
+                    return NotFound();
+                }
 
-            return item;
+                return item;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Could not get attribute: {ex.Message}");
+                throw;
+            }
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<ItemAttribute>> Get()
         {
-            return _attributeService.GetItemAttributesWithOptions();
+            try
+            {
+                return _attributeService.GetItemAttributesWithOptions();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Could not attributes: {ex.Message}");
+                throw;
+            }
         }
 
 
@@ -40,7 +56,15 @@ namespace MasterCatalog.Items.Api.Controllers
         [HttpGet("ByItem/{id}")]
         public ActionResult<IEnumerable<ItemAttribute>> ByItem(int id)
         {
-            return _attributeService.GetItemAttributes(id);
+            try
+            {
+                return _attributeService.GetItemAttributes(id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Could not get attributes for item: {ex.Message}");
+                throw;
+            }
         }
 
         [HttpPost]

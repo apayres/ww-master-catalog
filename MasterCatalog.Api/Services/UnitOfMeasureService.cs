@@ -14,7 +14,7 @@ namespace MasterCatalog.Api.Services
 
         public List<UnitOfMeasure> GetUnitsOfMeasure()
         {
-            return _unitOfMeasureRepository.GetAll();
+            return _unitOfMeasureRepository.GetAll().OrderBy(x => x.UnitOfMeasureName).ToList();
         }
 
         public Dictionary<int, UnitOfMeasure> GetUnitsOfMeasureGroupedByUnitOfMeasureID()

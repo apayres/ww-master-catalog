@@ -20,7 +20,15 @@ namespace MasterCatalog.Items.Api.Controllers
         [HttpGet]
         public ActionResult<List<UnitOfMeasure>> Get()
         {
-            return _unitOfMeasureService.GetUnitsOfMeasure();
+            try
+            {
+                return _unitOfMeasureService.GetUnitsOfMeasure();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Could not get units of measure: {ex.Message}");
+                throw;
+            }
         }
 
         [HttpPost]

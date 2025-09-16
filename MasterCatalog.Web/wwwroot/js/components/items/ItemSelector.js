@@ -26,7 +26,8 @@ export default {
         }
     },
     props: {
-        catalogItems: Array
+        catalogItems: Array,
+        menuItemsOnly: Boolean
     },
     components: {
         ButtonPrimary,
@@ -40,17 +41,33 @@ export default {
         loadItems() {
             const self = this;
 
-            _service.get()
-                .then(function (items) {
-                    self.filterItems(items);
-                })
-                .catch(function (error) {
-                    const msg = _errorHandler.getMessage(error);
-                    self.messageCenter.error(msg);
-                })
-                .finally(function () {
-                    self.processing = false;
-                });
+            if (this.menuItemsOnly) {
+                _service.getMenuItems()
+                    .then(function (items) {
+                        self.filterItems(items);
+                    })
+                    .catch(function (error) {
+                        const msg = _errorHandler.getMessage(error);
+                        self.messageCenter.error(msg);
+                    })
+                    .finally(function () {
+                        self.processing = false;
+                    });
+            }
+            else {
+                _service.get()
+                    .then(function (items) {
+                        self.filterItems(items);
+                    })
+                    .catch(function (error) {
+                        const msg = _errorHandler.getMessage(error);
+                        self.messageCenter.error(msg);
+                    })
+                    .finally(function () {
+                        self.processing = false;
+                    });
+            }
+
         },
         addClick() {
             this.addCallback(this.selectedItems);
@@ -154,7 +171,7 @@ export default {
                             <li class="list-group-item" v-for:="item in filteredItems">
                                 <label class="form-check-label">
                                     <input class="form-check-input" type="checkbox" :value="item.itemID" v-model="selectedItems">
-                                    {{ item.itemName }} ({{ item.upc }})
+                                    {{ item.category.parentCategory.categoryName }} > {{ item.category.categoryName }} > {{ item.itemName }} ({{ item.upc }})
                                 </label>
                             </li>
                         </ul>

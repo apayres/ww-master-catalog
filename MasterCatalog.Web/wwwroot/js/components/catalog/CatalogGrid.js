@@ -176,6 +176,7 @@ export default {
 
         <item-selector
             :catalog-items="catalogItems"
+            :menu-items-only="true"
             ref="itemSelector">
         </item-selector>
 

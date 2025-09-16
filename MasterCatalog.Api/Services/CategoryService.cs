@@ -14,8 +14,8 @@ namespace MasterCatalog.Api.Services
 
         public List<Category> GetCategories()
         {
-            List<Category> categories = new List<Category>();
-            List<Category> allCategories = _categoryRepository.GetAll();
+            var categories = new List<Category>();
+            var allCategories = _categoryRepository.GetAll().OrderBy(x => x.CategoryName);
 
             foreach (Category category in allCategories.Where(x => !x.ParentCategoryID.HasValue))
             {
@@ -34,7 +34,8 @@ namespace MasterCatalog.Api.Services
 
         public Dictionary<int, Category> GetCategoriesGroupedByCategoryID()
         {
-            var categories = _categoryRepository.GetAll();
+            var categories = _categoryRepository.GetAll().OrderBy(x => x.CategoryName);
+
             foreach (var category in categories) {
                 if (category.ParentCategoryID.HasValue)
                 {

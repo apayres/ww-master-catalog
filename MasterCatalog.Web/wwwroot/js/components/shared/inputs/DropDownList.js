@@ -15,7 +15,19 @@
         error: String,
         options: Array,
         textBinding: String,
+        textBindingMethod: Function,
         valueBinding: String
+    },
+    methods: {
+
+        textValue2(option) {
+
+            if (this.textBindingMethod) {
+                return this.textBindingMethod(option);
+            }
+
+            return option[this.textBinding];
+        }
     },
     computed: {
         isDisabled() {
@@ -24,6 +36,13 @@
         cssClasses() {
             let defaultClasses = ' form-control';
             return this.classes + defaultClasses;
+        },
+        textValue(option) {
+            if (this.textBindingMethod) {
+                return this.textBindingMethod(option);
+            }
+
+            return option[this.textBinding];
         }
     },
     watch: {
@@ -51,7 +70,8 @@
             <label class="form-label">{{ label }}</label>
             <select class="form-select" v-model="inputValue" :disabled="disabled">
                 <option v-for:="option in options" class="mt-2" :value="option[valueBinding]">
-                    {{ option[textBinding] }}
+                    
+                    {{ textValue2(option) }}
                 </option>
             </select>
             <span class="text-danger" v-if="error">{{ error }}</span>

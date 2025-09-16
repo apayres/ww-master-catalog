@@ -89,7 +89,7 @@ namespace MasterCatalog.Items.Api.Services
 
         public List<ItemAttribute> GetItemAttributesWithOptions()
         {
-            var attributes = _attributeRepository.GetAll();
+            var attributes = _attributeRepository.GetAll().OrderBy(x => x.AttributeName);
             var options = _attributeOptionRepository.GetAll();
 
             foreach (var attribute in attributes)
@@ -97,7 +97,7 @@ namespace MasterCatalog.Items.Api.Services
                 attribute.AttributeOptions = options.Where(x => x.ItemAttributeID == attribute.ItemAttributeID).ToList();
             }
 
-            return attributes;
+            return attributes.ToList();
         }
 
         public ItemAttribute? GetItemAttributeWithOptions(int id)

@@ -41,7 +41,7 @@ export default {
                 return false;
             }
 
-            _itemService.get()
+            _itemService.getIngredientItems()
                 .then(function (items) {
                     self.items = items;
                 })
@@ -128,6 +128,9 @@ export default {
                 .finally(function () {
                     self.saving = false;
                 });
+        },
+        dropDownText(item) {
+            return item.category.parentCategory.categoryName + ' > ' + item.category.categoryName + ' > ' + item.itemName + ' (' + item.upc + ')';
         }
     },
     mounted() {
@@ -148,14 +151,14 @@ export default {
                     <div class="modal-body">
                         <message-center ref="messageCenter"></message-center>
 
-                        <div class="col-6">
+                        <div class="col-8">
                             <drop-down-list
                                 label="Item"
-                                text-binding="itemName"
                                 value-binding="itemID"
                                 tooltip="Item"
+                                :text-binding-method="dropDownText"
                                 :options="items"
-                                :disabled="items.length < 2"
+                                :disabled="items.length < 1"
                                 :error="ingredient.itemIDError"
                                 v-model:value="ingredient.itemID"
                             </drop-down-list>

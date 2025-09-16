@@ -8,6 +8,7 @@ const _errorHandler = new ErrorHandler();
 
 export default {
     messageCenter: null,
+    previousPage: 1,
 
     data() {
         return {
@@ -44,12 +45,13 @@ export default {
                 });
         },
         recipeClick() {
-            window.location.href = '/Recipe/Index/' + this.itemID;
+            window.location.href = '/Recipe/Index/' + this.itemID + '?previousPage=' + this.previousPage;
             return false;
         }
     },
     mounted() {
         this.messageCenter = this.$refs.messageCenter;
+        this.previousPage = document.getElementById('previousPageNumber').value ?? 1;
     },
     template: `
         <div class="p-3 mb-2">

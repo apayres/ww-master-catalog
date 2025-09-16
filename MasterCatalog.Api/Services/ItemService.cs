@@ -62,6 +62,50 @@ namespace MasterCatalog.Items.Api.Services
                 .ToList();
         }
 
+
+        public List<Item> GetIngredients()
+        {
+            var items = GetItems();
+
+            var ingredientItems = new List<Item>();
+            foreach (var item in items)
+            {
+                if (item.Attributes == null || !item.Attributes.Any(x => x.AttributeName == "Recipe Item" && x.AttributeValue?.AttributeValue.ToString() == "1"))
+                {
+                    continue;
+                }
+
+                ingredientItems.Add(item);
+            }
+
+            return ingredientItems.OrderBy(x => x.Category?.ParentCategory?.CategoryName)
+                .ThenBy(x => x.Category?.CategoryName)
+                .ThenBy(x => x.ItemName)
+                .ToList();
+        }
+
+        public List<Item> GetMenuItems()
+        {
+            var items = GetItems();
+
+            var menuItems = new List<Item>();
+            foreach (var item in items)
+            {
+                if (item.Attributes == null || !item.Attributes.Any(x => x.AttributeName == "Menu Item" && x.AttributeValue?.AttributeValue.ToString() == "1"))
+                {
+                    continue;
+                }
+
+                menuItems.Add(item);
+            }
+
+            return menuItems.OrderBy(x => x.Category?.ParentCategory?.CategoryName)
+                .ThenBy(x => x.Category?.CategoryName)
+                .ThenBy(x => x.ItemName)
+                .ToList();
+        }
+
+
         public Dictionary<int, Item> GetItemsGroupByItemID()
         {
             return GetItems().ToDictionary(x => x.ItemID.Value, y => y);

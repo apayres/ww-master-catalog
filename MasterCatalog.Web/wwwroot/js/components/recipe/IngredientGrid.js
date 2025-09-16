@@ -14,6 +14,7 @@ const _errorHandler = new ErrorHandler();
 export default {
     messageCenter: null,
     ingredientForm: null,
+    previousPage: 1,
 
     data() {
         return {
@@ -53,7 +54,7 @@ export default {
                 });
         },
         backClick() {
-            window.location.href = "/items/item/" + this.item.itemID;
+            window.location.href = "/items/item/" + this.item.itemID + "?previousPage=" + this.previousPage;
             return false;
         },
         addClick() {
@@ -119,6 +120,7 @@ export default {
     mounted() {
         this.messageCenter = this.$refs.messageCenter;
         this.ingredientForm = this.$refs.ingredientForm;
+        this.previousPage = document.getElementById('previousPageNumber').value ?? 1;
     },
     template: `
     <div>

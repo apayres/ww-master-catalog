@@ -20,19 +20,35 @@ namespace MasterCatalog.Api.Controllers
         [HttpGet("{id}")]
         public ActionResult<Category> Get(int id)
         {
-            var category = _categoryService.GetCategory(id);
-            if (category == null)
+            try
             {
-                return NotFound();
-            }
+                var category = _categoryService.GetCategory(id);
+                if (category == null)
+                {
+                    return NotFound();
+                }
 
-            return category;
+                return category;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Could not get item: {ex.Message}");
+                throw;
+            }
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<Category>> Get()
         {
-            return _categoryService.GetCategories();
+            try
+            {
+                return _categoryService.GetCategories();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Could not get all items: {ex.Message}");
+                throw;
+            }
         }
 
         [HttpPost]

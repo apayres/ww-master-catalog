@@ -38,6 +38,24 @@ export class ItemService {
         return items;
     }
 
+    async getIngredientItems() {
+        const response = await _api.get(null, 'ingredients');
+        const items = response.data.map((obj) => {
+            return this.mapToModel(obj);
+        });
+
+        return items;
+    }
+
+    async getMenuItems() {
+        const response = await _api.get(null, 'menuitems');
+        const items = response.data.map((obj) => {
+            return this.mapToModel(obj);
+        });
+
+        return items;
+    }
+
     async getById(id) {
         const response = await _api.get(null, id);
         return this.mapToModel(response.data);
