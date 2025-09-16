@@ -8,7 +8,6 @@ namespace MasterCatalog.Items.Api.Controllers
     [Route("[controller]")]
     public class CompanyCatalogController : ControllerBase
     {
-
         private readonly ILogger<CompanyCatalogController> _logger;
         private readonly ICompanyCatalogService _companyCatalogService;
 
@@ -21,8 +20,16 @@ namespace MasterCatalog.Items.Api.Controllers
         [HttpGet]
         public ActionResult<CompanyCatalog> Get(int companyId, int itemId)
         {
-            var companyCatalog = _companyCatalogService.GetByCompanyIDAndItemID(companyId, itemId);
-            return companyCatalog;
+            try
+            {
+                var companyCatalog = _companyCatalogService.GetByCompanyIDAndItemID(companyId, itemId);
+                return companyCatalog;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Could not load item {ex.Message}");
+                throw;
+            }
         }
 
         [HttpGet("Items/{id}")]
@@ -30,6 +37,26 @@ namespace MasterCatalog.Items.Api.Controllers
         {
             var catalogItems = _companyCatalogService.GetCatalogItems(id);
             return catalogItems;
+        }
+
+        [HttpGet("Catalog/{companyCode}")]
+        public ActionResult<List<CatalogItem>> Catalog(string companyCode)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(companyCode))
+                {
+                    throw new Exception("Company code must have a value");
+                }
+
+                var catalogItems = _companyCatalogService.GetCatalogItems(companyCode);
+                return catalogItems;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Could not get company catalog: {ex.Message}");
+                throw;
+            }
         }
 
         [HttpGet("ByItem/{id}")]

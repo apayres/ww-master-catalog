@@ -1,5 +1,4 @@
-﻿using MasterCatalog.Api.Services;
-using MasterCatalog.Dal.Contracts;
+﻿using MasterCatalog.Dal.Contracts;
 using MasterCatalog.Domain.Models;
 
 namespace MasterCatalog.Items.Api.Services
@@ -7,14 +6,14 @@ namespace MasterCatalog.Items.Api.Services
     public class CompanyCatalogService : ICompanyCatalogService
     {
         private readonly IItemService _itemService;
-        private readonly IUnitOfMeasureService _unitOfMeasureService;
         private readonly ICompanyCatalogRepository _companyCatalogRepository;
+        private readonly ICompanyRepository _companyRepository;
 
-        public CompanyCatalogService(IItemService itemRepository, ICompanyCatalogRepository companyCatalogRepository, IUnitOfMeasureService unitOfMeasureRepository)
+        public CompanyCatalogService(IItemService itemRepository, ICompanyCatalogRepository companyCatalogRepository, ICompanyRepository companyRepository)
         {
             _itemService = itemRepository;
             _companyCatalogRepository = companyCatalogRepository;
-            _unitOfMeasureService = unitOfMeasureRepository;
+            _companyRepository = companyRepository;
         }
 
         public CompanyCatalog GetByCompanyIDAndItemID(int companyID, int itemID)
@@ -25,6 +24,17 @@ namespace MasterCatalog.Items.Api.Services
         public List<CompanyCatalog> GetByItemID(int itemID)
         {
             return _companyCatalogRepository.GetByItemID(itemID);
+        }
+
+        public List<CatalogItem> GetCatalogItems(string companyCode)
+        {
+            var company = _companyRepository.GetAll().FirstOrDefault(x => x.CompanyCode == companyCode);
+            if (company == null)
+            {
+                return new List<CatalogItem>();
+            }
+
+            return GetCatalogItems(company.CompanyID.Value);
         }
 
         public List<CatalogItem> GetCatalogItems(int companyID)
@@ -38,7 +48,6 @@ namespace MasterCatalog.Items.Api.Services
             }
 
             var items = _itemService.GetItemsGroupByItemID();
-            var unitsOfMeasure = _unitOfMeasureService.GetUnitsOfMeasureGroupedByUnitOfMeasureID();
 
             foreach (var catalogEntry in catalog)
             {
@@ -48,10 +57,6 @@ namespace MasterCatalog.Items.Api.Services
                 }
 
                 var item = items[catalogEntry.ItemID];
-                if (!unitsOfMeasure.ContainsKey(item.UnitOfMeasureID))
-                {
-                    continue;
-                }
 
                 var catalogItem = new CatalogItem()
                 {
@@ -64,7 +69,11 @@ namespace MasterCatalog.Items.Api.Services
                     Upc = item.Upc,
                     RetailPrice = catalogEntry.RetailPrice,
                     UnitOfMeasureID = item.UnitOfMeasureID,
-                    UnitOfMeasure = unitsOfMeasure[item.UnitOfMeasureID],
+                    UnitOfMeasure = item.UnitOfMeasure,
+                    Attributes = item.Attributes,
+                    Images = item.Images,
+                    Category = item.Category,
+                    CategoryID = item.CategoryID
                 };
 
                 catalogItems.Add(catalogItem);

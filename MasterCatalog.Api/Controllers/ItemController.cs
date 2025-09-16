@@ -1,5 +1,4 @@
-﻿using MasterCatalog.Dal.Contracts;
-using MasterCatalog.Domain.Models;
+﻿using MasterCatalog.Domain.Models;
 using MasterCatalog.Items.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 
