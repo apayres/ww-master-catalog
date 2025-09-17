@@ -62,7 +62,6 @@ namespace MasterCatalog.Items.Api.Services
                 .ToList();
         }
 
-
         public List<Item> GetIngredients()
         {
             var items = GetItems();
@@ -104,7 +103,6 @@ namespace MasterCatalog.Items.Api.Services
                 .ThenBy(x => x.ItemName)
                 .ToList();
         }
-
 
         public Dictionary<int, Item> GetItemsGroupByItemID()
         {

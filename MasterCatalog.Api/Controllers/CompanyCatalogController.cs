@@ -27,7 +27,7 @@ namespace MasterCatalog.Items.Api.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Could not load item {ex.Message}");
+                _logger.LogError(ex, $"Could not load catalog item {ex.Message}");
                 throw;
             }
         }
@@ -35,8 +35,16 @@ namespace MasterCatalog.Items.Api.Controllers
         [HttpGet("Items/{id}")]
         public ActionResult<List<CatalogItem>> Items(int id)
         {
-            var catalogItems = _companyCatalogService.GetCatalogItems(id);
-            return catalogItems;
+            try
+            {
+                var catalogItems = _companyCatalogService.GetCatalogItems(id);
+                return catalogItems;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Could not load catalog items {ex.Message}");
+                throw;
+            }
         }
 
         [HttpGet("Catalog/{companyCode}")]
@@ -62,8 +70,16 @@ namespace MasterCatalog.Items.Api.Controllers
         [HttpGet("ByItem/{id}")]
         public ActionResult<List<CompanyCatalog>> GetByItem(int id)
         {
-            var companyCatalog = _companyCatalogService.GetByItemID(id);
-            return companyCatalog;
+            try
+            {
+                var companyCatalog = _companyCatalogService.GetByItemID(id);
+                return companyCatalog;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Could not load item {ex.Message}");
+                throw;
+            }
         }
 
         [HttpPost]

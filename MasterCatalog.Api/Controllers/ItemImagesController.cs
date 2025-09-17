@@ -21,25 +21,41 @@ namespace MasterCatalog.Items.Api.Controllers
         [HttpGet("{id}")]
         public ActionResult<List<ItemImage>> Get(int id)
         {
-            var images = _itemImageService.GetByItemID(id);
-            return images.OrderBy(x => x.DisplayOrder).ToList();
+            try
+            {
+                var images = _itemImageService.GetByItemID(id);
+                return images.OrderBy(x => x.DisplayOrder).ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Could not load images {ex.Message}");
+                throw;
+            }
         }
 
         [HttpPost]
         public ActionResult<ItemImage> UploadImage([FromForm] ItemImageUploadModel model)
         {
-            if (model == null || model.UploadData == null || model.UploadData.FileData == null)
+            try
             {
-                return BadRequest("No file found to upload.");
-            }
+                if (model == null || model.UploadData == null || model.UploadData.FileData == null)
+                {
+                    return BadRequest("No file found to upload.");
+                }
 
-            var containerName = model.UploadData.Container.Trim().ToLower();
-            if (string.IsNullOrEmpty(containerName))
+                var containerName = model.UploadData.Container.Trim().ToLower();
+                if (string.IsNullOrEmpty(containerName))
+                {
+                    return BadRequest("container name must exist.");
+                }
+
+                return _itemImageService.UploadImage(model);
+            }
+            catch (Exception ex)
             {
-                return BadRequest("container name must exist.");
+                _logger.LogError(ex, $"Could not upload image {ex.Message}");
+                throw;
             }
-
-            return _itemImageService.UploadImage(model);
         }
 
         [HttpPut]

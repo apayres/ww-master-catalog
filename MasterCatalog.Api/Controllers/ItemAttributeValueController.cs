@@ -20,7 +20,15 @@ namespace MasterCatalog.Items.Api.Controllers
         [HttpGet]
         public ActionResult<List<ItemAttributeValue>> Get(int itemId)
         {
-            return _attributeValueRepository.GetByItemID(itemId);
+            try
+            {
+                return _attributeValueRepository.GetByItemID(itemId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Could not load attribute value {ex.Message}");
+                throw;
+            }
         }
 
         [HttpPost]

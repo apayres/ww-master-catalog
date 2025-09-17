@@ -20,20 +20,37 @@ namespace MasterCatalog.Items.Api.Controllers
         [HttpGet("{id}")]
         public ActionResult<Ingredient> Get(int id)
         {
-            var ingredient = _ingredientService.GetIngredient(id);
-            if (ingredient == null)
+            try
             {
-                return NotFound();
-            }
+                var ingredient = _ingredientService.GetIngredient(id);
+                if (ingredient == null)
+                {
+                    return NotFound();
+                }
 
-            return ingredient;
+                return ingredient;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Could not load ingredient {ex.Message}");
+                throw;
+            }
         }
 
         [HttpGet("Recipe/{id}")]
         public ActionResult<List<Ingredient>> GetRecipe(int id)
         {
-            var recipe = _ingredientService.GetRecipe(id);
-            return recipe;
+            try
+            {
+                var recipe = _ingredientService.GetRecipe(id);
+                return recipe;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Could not load recipe {ex.Message}");
+                throw;
+            }
         }
 
         [HttpPost]

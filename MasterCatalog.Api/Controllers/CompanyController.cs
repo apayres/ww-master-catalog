@@ -20,19 +20,35 @@ namespace MasterCatalog.Items.Api.Controllers
         [HttpGet("{id}")]
         public ActionResult<Company> Get(int id)
         {
-            var company = _companyService.GetCompany(id);
-            if (company == null)
+            try
             {
-                return NotFound();
-            }
+                var company = _companyService.GetCompany(id);
+                if (company == null)
+                {
+                    return NotFound();
+                }
 
-            return company;
+                return company;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Could not load company {ex.Message}");
+                throw;
+            }
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<Company>> Get()
         {
-            return _companyService.GetCompanies();
+            try
+            {
+                return _companyService.GetCompanies();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Could not load companies {ex.Message}");
+                throw;
+            }
         }
 
         [HttpPost]
@@ -47,7 +63,7 @@ namespace MasterCatalog.Items.Api.Controllers
             {
                 _companyService.InsertCompany(company);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "Could not insert company");
                 throw;

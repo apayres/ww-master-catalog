@@ -20,7 +20,15 @@ namespace MasterCatalog.Items.Api.Controllers
         [HttpGet("GetOptions/{id}")]
         public ActionResult<IEnumerable<ItemAttributeOption>> Get(int id)
         {
-            return _attributeOptionRepository.GetByItemAttributeID(id);
+            try
+            {
+                return _attributeOptionRepository.GetByItemAttributeID(id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Could not load options {ex.Message}");
+                throw;
+            }
         }
 
         [HttpPost]

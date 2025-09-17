@@ -9,16 +9,26 @@ namespace MasterCatalog.Api.Controllers
     public class ApplicationUserController : ControllerBase
     {
         private readonly IApplicationUserRepository _repository;
+        private readonly ILogger<CategoryController> _logger;
 
-        public ApplicationUserController(IApplicationUserRepository repository)
+        public ApplicationUserController(ILogger<CategoryController> logger, IApplicationUserRepository repository)
         {
             _repository = repository;
+            _logger = logger;
         }
 
         [HttpPost]
         public ActionResult<ApplicationUser> Post([FromForm] string userName, [FromForm] string password)
         {
-            return _repository.Get(userName, password);
+            try
+            {
+                return _repository.Get(userName, password);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Could not get user: {ex.Message}");
+                throw;
+            }
         }
     }
 }
